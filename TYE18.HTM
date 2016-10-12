@@ -1,0 +1,379 @@
+<HTML>
+<HEAD>
+<TITLE>tye18.htm </TITLE>
+<LINK REL="ToC" HREF="httoc.htm">
+<LINK REL="Index" HREF="htindex.htm">
+<LINK REL="Previous" HREF="tye17.htm"></HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#800080">
+<A NAME="I0"></A><P ALIGN=CENTER>
+<A HREF="tye17.htm" TARGET="_self"><IMG SRC="blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blantoc.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="TOC"></A>
+
+<HR ALIGN=CENTER>
+<P>
+
+<HR ALIGN=CENTER>
+<A NAME="E66E4"></A>
+<H1 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=6 COLOR="#000080"><B>- 18 -</B>
+<BR><A NAME="I2"></A><B>Building Database Applications</B>
+<BR><B><I>by Ken Henderson</I></B></FONT></CENTER></H1>
+<BR>
+<P>Yesterday you learned the basics of building database forms. Today you'll learn more about building database forms and constructing database applications. Specifically, today's topics consist of
+<BR>
+<UL>
+<LI>Using the TDatabase component in your apps
+<LI>Defining BDE aliases
+<LI>Setting up data modules
+<LI>Creating master/detail forms
+<LI>Making use of the TQuery component
+<LI>Designing reports
+</UL>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I3"></A><B>The TDatabase Component</B></FONT></CENTER></H3>
+<BR>
+<P>If you haven't already done so, start C++Builder and load the second form you created yesterday. We'll begin today's work by changing this form to make use of a TDatabase component.
+<BR>
+<P>Using a TDatabase component in your database apps isn't required, but it is best way to manage your app's database access from a single vantage point. For example, to switch your application's transaction isolation level, you can change the value of TDatabase's TransIsolation property. To override the default login sequence, you can attach code to TDatabase's OnLogin event. And to specify driver-specific parameters, you can add entries to TDatabase's Params property.
+<BR>
+<P>Locate the TDatabase component on the Data Access page of C++Builder's toolbar and drop one on to the form. As with the TTable and TDataSource controls, the physical location of the TDatabase component on your form is unimportant. It's a nonvisual control&#151;it won't be displayed at runtime.
+<BR>
+<P>Set the TDatabase's AliasName property to the DBDEMOS alias that you used earlier on the form. Set its DatabaseName property to dbTest. The DatabaseName property specifies the name by which other components will reference your TDatabase. They do so via their own DatabaseName properties. That is, in order to use your TDatabase with a TTable component, you'll set the TTable's DatabaseName property to the name you specified in the DatabaseName property of your TDatabase.
+<BR>
+<P>Now that your TDatabase is set up, change your TTable to reference it. Bring up the Object Inspector and click on the drop-down list next to Table1's DatabaseName property. You should see dbTest in the list. Click on it to select it. You've now switched your form to funnel its database access through a single control, your TDatabase component. Figure 18.1 shows your form with its TDatabase component set up.
+<BR>
+<P><B><A HREF="18tye01.gif">Figure 18.1. You can channel your database access through a TDatabase component.</A></B>
+<BR>
+<P>Be sure to save the changes you've just made to your form before proceeding.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I4"></A><B>BDE Aliases</B></FONT></CENTER></H3>
+<BR>
+<P>C++Builder's Database Explorer has a variety of uses&#151;you'll use it here to create a Borland Database Engine alias. You need a BDE alias in order to access database objects from C++Builder.
+<BR>
+<P>Personally, I've never like the term <I>alias</I>. To me, the word implies that the name is false&#151;that it's a pseudonym. Implications aside, a BDE alias is analogous to an ODBC data source. It's a collection of parameters that define how to connect to a given database or DBMS.
+<BR>
+<P>Yesterday we made use of the built-in demo alias, DBDEMOS. C++Builder includes it by default to support some of its database demo applications. Today I'll show you how to define your own BDE aliases. When you build real applications, you'll likely require custom alias definitions.
+<BR>
+<P>Select the Explore option from C++Builder's Database menu to start the Database Explorer. Click on the Database tab, if it isn't already selected, then click on the Databases entry in the treeview below it. Next, right-click on the Database entry and select New on the ensuing menu.
+<BR>
+<P>You're then prompted to select a database driver for your new BDE alias. The alias you'll build today will be Paradox based, so select Standard and click OK.
+<BR>
+<P>Next, you're prompted for the name of the new database alias. Type PDOXDEMO and press Enter. Next, click on the Path entry in the right-hand pane and type the name of the directory where C++Builder's demo database files are stored (in my case that's C:\Progam Files\Borland\CBuilder\Examples\Data) and then press Enter.
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Note</B>
+<BR>
+<BR>By pointing your new alias to C++Builder's demo data directory, you're basically duplicating the DBDEMOS alias. This makes testing the new alias easier, because tables are already present in the directory. In your own apps, though, you'll no doubt specify a different directory.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>Next, click the Apply button in Database Explorer's toolbar. It's the blue arrow that curves to the right. This saves your new alias definition.
+<BR>
+<P>Figure 18.2 illustrates what the screen should look like when you're done.
+<BR>
+<P><B><A HREF="18tye02.gif">Figure 18.2. Your new alias definition.</A></B>
+<BR>
+<P>Now that you've built a new BDE alias, let's change your form to use it. To do so, follow these steps:
+<BR>
+<OL>
+<LI>Close the Database Explorer and return to the C++Builder Form Designer.
+<BR>
+<LI>Click your TDatabase component; then press F11 to bring up the Object Inspector.
+<BR>
+<LI>Change TDatabase's AliasName property to reference your new alias.
+<BR>
+</OL>
+<P>Figure 18.3 shows what you should see in the Object Inspector.
+<BR>
+<P><B><A HREF="18tye03.gif">Figure 18.3. Your TDatabase references your new BDE alias.</A></B>
+<BR>
+<P>Save your work now and run your app. You should see that it opens the BIOLIFE Paradox table as it did before. When you're finished viewing the app, close it and return to C++Builder.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I5"></A><B>Data Modules</B></FONT></CENTER></H3>
+<BR>
+<P><B><I><IMG SRC="newterm.gif"></I></B>
+<P>A <I>data module</I> is a special type of form designed for holding nonvisual controls like database-access controls. It allows you to centrally locate all your nonvisual data controls for easy access and management. 
+<BR>
+<P>I recommend that you create a data module for every database that you might want to access with C++Builder applications. You don't have to put all the tables in a given database in a single data module. I recommend you do so when possible, however, because this enables you to save the data module to the C++Builder Object Repository, where you and others can reuse it when building applications. This helps ensure consistency across your applications and enables you to manage C++Builder's database access from a single vantage point&#151;the Object Repository.
+<BR>
+<P>So, select File | New Data Module. You'll be presented with a small form onto which you can then drop nonvisual components. You may want to resize your data module so that it's a bit larger before proceeding. Its default size is quite small.
+<BR>
+<P>Now that you have a data module, we'll move your form's nonvisual data access components to it. If you were building an entire application, you'd place as many of your data access components on the app's data module as possible.
+<BR>
+<P>Begin by selecting the TTable, TDataSource, and TDatabase components on your BIOLIFE form and pressing Ctrl+X to cut them to the Windows clipboard. Next, select your new data module and press Ctrl+V to paste your components from the clipboard on to your data module. Your data-access components have now been moved to your data module. Figure 18.4 shows what the new data module should look like.
+<BR>
+<P><B><A HREF="18tye04.gif">Figure 18.4. Your new data module houses data-access components.</A></B>
+<BR>
+<P>When you've finished this cut-and-paste operation, you need to return to your BIOLIFE form and repair the references to your data-access components that were broken when you moved them. That is, the data-aware controls (for example, TDBEdit) on your form referenced the TDataSource that you removed from the form. Now that the TDataSource has been moved, the reference is invalid, and C++Builder has cleared it. You'll need to repair these broken references before proceeding.
+<BR>
+<P>Before you can make use of the components on the your new data module, you'll have to include the module form's header file in your form's source code so that the form can &quot;see&quot; the data module's components. To do this, load your BIOLIFE form into the Form Designer; then select the Include Unit option on the File menu and choose your data module's source code unit. Now the objects on the data module are available in your form just as if they'd been dropped onto the form itself.
+<BR>
+<P>Next, select all the data-aware components on your form (including the TDBNavigator); then press F11 to bring up the Object Inspector. When the Object Inspector is up, click on the drop-down list next to the DataSource property and select your data module's TDataSource. You'll notice that the TDataSource component's name is now qualified with the name of the data module unit. Figure 18.5 shows the form modified to reference your new data module.
+<BR>
+<P><B><A HREF="18tye05.gif">Figure 18.5. Your form now references the data module you created.</A></B>
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>TIP</B>
+<BR>
+<BR>You can quickly select several components at once by dragging a selection rectangle over them. You do this by positioning the mouse pointer to the left and above the leftmost component, holding down button one, and then dragging the rectangle that subsequently appears so that it encompasses the controls that you want to select. When you release button one, the controls within the rectangle will be selected.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>Because we used source code to open the TTable at when the BIOLIFE form was created, we'll have to fix that reference as well. Press F11 to bring up the Object Inspector; then select your form from the drop-down list of components. Next, click on the Events page and double-click on the OnCreate event. You should see this code:
+<BR>
+<BR>
+<PRE>
+<FONT COLOR="#000080">Table1-&gt;Open();</FONT></PRE>
+<P>Because there's no longer a Table1 component on this form, this code won't compile. You could change this to
+<BR>
+<BR>
+<PRE>
+<FONT COLOR="#000080">DataModule1-&gt;Table1-&gt;Open();</FONT></PRE>
+<P>But this would create an interunit dependency that you don't need and should avoid when possible. That is, you'd have to be sure that your data module was created before your BIOLIFE form; otherwise, calling Table1's open method might generate an access violation. The better method is not to open the table with source code at all. It's easier (and, I think, far more preferable) to open the table at design time than to do so via method calls in your source code. By opening the table at design time, you get to view your data while working on forms that reference it and you also get to avoid having to explicitly open the TTable in program source code. Basically, it's less work and more flexible.
+<BR>
+<P>Delete the Table1-&gt;Open() line from the form's OnCreate event and save the form. Next, load your data module into the C++Builder Form Designer and select its TTable component. Now, press F11 to bring up the Object Inspector and double-click on the Active property to open the TTable. Once you've done this, save your project.
+<BR>
+<P>You can run your app now, if you'd like, to see that it still works as expected. Once you've finished, close it to return to C++Builder.
+<BR>
+<P>Now that the data module is completed, let's save it to the Object Repository. You'll often find that storing a form you design, whether it's a data module or just a &quot;regular&quot; form, makes a lot of sense. By storing a form in the Object Repository, you can later inherit from it to create new forms or include it as is in other projects.
+<BR>
+<P>Right-click on the data module itself and select Add to Repository from the Context menu. Type dmBIOLIFE for the Title and BIOLIFE data module form for the Description. Select Data Modules in the Page drop-down list box and key your name into the Author entry box; then click OK. Figure 18.6 illustrates the Add to Repository dialog box.
+<BR>
+<P><B><A HREF="18tye06.gif">Figure 18.6. The completed Add to Repository dialog box.</A></B>
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>NOTE</B>
+<BR>
+<BR>You can also select an icon to represent your data module in the Object Repository. As you add more data modules to the Repository, you'll probably find that assigning a unique bitmap to each one makes them easier to distinguish from one another. To choose a special icon for your new data module, click the Browse button in the Add to Repository dialog box.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>If you haven't already saved your data module form, you'll next be asked whether you want to save the data module to disk before adding it to the Object Repository. If so, click Yes and enter a pathname for the file.
+<BR>
+<P>Now that you've added the dmBIOLIFE data module to the Object Repository, you'll be able to use it whenever an application needs access to the BIOLIFE table.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I6"></A><B>Creating a Master/Detail Form</B></FONT></CENTER></H3>
+<BR>
+<P><B><I><IMG SRC="newterm.gif"></I></B>
+<P>A <I>master/detail</I> form usually browses at least two tables that are related to one another. It normally displays one table in one portion of the form and the other in a second portion. For example, you might browse the ORDERS table at the top of a master/detail form and its related LINEITEM table at the bottom. As each row in ORDERS was perused, the associated rows in LINEITEM would be displayed. You see this type of form a lot in real database applications. 
+<BR>
+<P>The next item to cover today is the construction of a master/detail form. I'll show you how to build one for inclusion in your apps.
+<BR>
+<P>You'll also get acquainted with the TQuery component. The database forms you've built thus far have all been based on the TTable component. The master/detail form you're about to build will instead utilize the TQuery component.
+<BR>
+<P>Begin by starting the Database Form Wizard (choose Database | Form Wizard from the main menu). When the Form Wizard starts, click the Create a master/detail form and the Create a Form using TQuery objects radio buttons; then click Next.
+<BR>
+<P>In the Database Form Wizard's second dialog box, click on the Drive or Alias drop-down list and select the PDOXDEMO alias you defined earlier, then double-click on the CUSTOMER.DB table in the Table Name list. This will select the CUSTOMER table (a Paradox table) in the C++Builder demo data directory as your master/detail form's master table.
+<BR>
+<P>When you double-clicked on the CUSTOMER table, the Database Form Wizard automatically moved you to its next step. Now you're ready to select which fields from the CUSTOMER table to include on the form. Click the &gt;&gt; button to select all of them; then click Next.
+<BR>
+<P>The next Database Form Wizard dialog box asks what layout you'd like to use for your master table's fields. Your choices are Horizontal, Vertical, and Grid. Click the Next button to accept the default (Horizontal).
+<BR>
+<P>Now that you've chosen your master table, you're ready to select the form's detail table. The alias you selected earlier for your master table is selected by default for you&#151;you need only select a table. Double-click on the ORDERS table to select it as your form's detail table.
+<BR>
+<P>After you've selected a detail table, the Database Form Wizard asks which fields you'd like to include from it. Click the &gt;&gt; button to select them all; then click on the CustNo field in the Ordered Selected Fields list and click the &lt; button to remove it from the list. Because the master table's CustNo field will be displayed in form's top region, there's no reason to include it in the bottom region as well. Click the Next button to proceed.
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Tip</B>
+<BR>
+<BR>You can also select the order in which the fields will appear from this dialog box. You can drag-and-drop fields in the list to move them, or you can use the up- and down-arrow buttons beneath the Ordered Selected Fields list to move a single field one position at a time.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>Figure 18.7 shows what the dialog box should look like before you click Next.
+<BR>
+<P><B><A HREF="18tye07.gif">Figure 18.7. Selecting all but the CustNo field.</A></B>
+<BR>
+<P>As with the master table, the Database Form Wizard next prompts for the layout you'd like to use with your detail table's fields. The default is Grid. Click Next to accept the default and proceed.
+<BR>
+<P>Next, you're asked select pairs of fields that will join your master and detail tables. When databases are designed intuitively, these fields will have the same names in both tables. In this particular case, you'll be joining your master and detail tables using their CustNo columns. Click the CustNo column in both lists; then click Add. Figure 18.8 illustrates how the join definition should appear. When you've finished setting up the join, click Next to proceed.
+<BR>
+<P><B><A HREF="18tye08.gif">Figure 18.8. Join your tables using the CustNo column.</A></B>
+<BR>
+<P>The final dialog box of the Database Form Wizard allows you to choose whether to generate a main form and whether to also generate a data module. Click the Form and DataModule radio button; then click the Finish button. This will have the effect of making your new form the app's main form because the wizard generates a main form by default. Figure 18.9 shows your completed form in the C++Builder Form Designer.
+<BR>
+<P><B><A HREF="18tye09.gif">Figure 18.9. Your finished master/detail form.</A></B>
+<BR>
+<P>Before we execute your app to view the new form at runtime, let's study it a bit to see how it works. Understanding how the generated form works will help you build your own master/detail forms.
+<BR>
+<P>You should have noticed two new forms when the Database Form Wizard finished. You should have a master/detail form and a data module form. Load the data module now in the visual designer; then click its leftmost TQuery component. Press F11 to bring up the Object Inspector; then double-click on the SQL property. You can click the Code Editor button to view the SQL in C++Builder's Code Editor. Figure 18.10 illustrates what you might see.
+<BR>
+<P><B><A HREF="18tye10.gif">Figure 18.10. Some SQL generated by the Database Form Wizard.</A></B>
+<BR>
+<P>This SQL query retrieves all the columns and all the rows in the CUSTOMER.DB table. It names the columns individually, but because you selected all of them in the Database Form Wizard, it's actually retrieving all the table's columns. Because the SQL doesn't have a WHERE clause to qualify it, it retrieves all the table's rows as well. Press Ctrl+F4 to close the Code Editor window when you're through viewing the SQL.
+<BR>
+<P>Now that you've viewed the SQL for the master table, let's have a look at the SQL generated for the detail table. Click the rightmost TQuery component and then double-click on its SQL property in the Object Inspector. You should see the following SQL:
+<BR>
+<PRE>
+<FONT COLOR="#000080">Select
+  ORDERS.&quot;OrderNo&quot;,
+  ORDERS.&quot;SaleDate&quot;,
+  ORDERS.&quot;ShipDate&quot;,
+  ORDERS.&quot;EmpNo&quot;,
+  ORDERS.&quot;ShipToContact&quot;,
+  ORDERS.&quot;ShipToAddr1&quot;,
+  ORDERS.&quot;ShipToAddr2&quot;,
+  ORDERS.&quot;ShipToCity&quot;,
+  ORDERS.&quot;ShipToState&quot;,
+  ORDERS.&quot;ShipToZip&quot;,
+  ORDERS.&quot;ShipToCountry&quot;,
+  ORDERS.&quot;ShipToPhone&quot;,
+  ORDERS.&quot;ShipVIA&quot;,
+  ORDERS.&quot;PO&quot;,
+  ORDERS.&quot;Terms&quot;,
+  ORDERS.&quot;PaymentMethod&quot;,
+  ORDERS.&quot;ItemsTotal&quot;,
+  ORDERS.&quot;TaxRate&quot;,
+  ORDERS.&quot;Freight&quot;,
+  ORDERS.&quot;AmountPaid&quot;
+From &quot;ORDERS.DB&quot;
+As ORDERS
+Where
+  &quot;ORDERS&quot;.&quot;CustNo&quot; =:&quot;CustNo&quot;</FONT></PRE>
+<P>The most remarkable thing about this SQL is its WHERE clause. It restricts the rows returned from the ORDERS table to just those whose CustNo column matches a variable named :CustNo. Where is :CustNo defined?
+<BR>
+<P>To find the answer to this question, return to the Object Inspector and check out the detail TQuery's DataSource property. You should see that it's set to the master TQuery's DataSource. What does this mean? This means that as the CustNo field changes in the master table (when the current row cursor moves, for example) the detail TQuery will be reexecuted and requalified by the new value. In this way, the two queries are automatically kept in synch by C++Builder. And the only rows that are visible in the detail table are those that correspond to the current row in the master table.
+<BR>
+<P>To check out how this works, run the app now. Figure 18.11 shows what you should see.
+<BR>
+<P><B><A HREF="18tye11.gif">Figure 18.11. Your master/detail form as it appears at runtime.</A></B>
+<BR>
+<P>When you've finished viewing your new form, close it and return to C++Builder.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I7"></A><B>Reports</B></FONT></CENTER></H3>
+<BR>
+<P>C++Builder provides a couple of easy ways to construct reports. You can build them using the QuickReport components, which you can find on the QReport page of the C++Builder Component Palette. You can also construct reports using C++Builder's client/server report writer, ReportSmith. Today I'll take you through the process of building a report using the QuickReport components. Consult the C++Builder documentation for information on building reports with ReportSmith.
+<BR>
+<P>C++Builder includes a couple of handy report templates that you can appropriate for your own use. You'll find them on the Forms page of the Object Repository. Select the New option on the C++Builder File menu; then click the Forms page. Locate the QuickReport List form on the page and double-click on it. Figure 18.12 shows what you should see.
+<BR>
+<P><B><A HREF="18tye12.gif">Figure 18.12. You can create a new report using C++Builder's report templates.</A></B>
+<BR>
+<P>Select the File | Include Unit menu option; then choose the unit containing the BIOLIFE data module that you built earlier today. This will make the TDataSource you defined on the data module available to the report.
+<BR>
+<P>Next, click the TQuickReport component on the report form; then press F11 to bring up the Object Inspector and set the component's DataSource property to the TDataSource on your BIOLIFE data module. Click on the ReportTitle property and set it to BIOLIFE.
+<BR>
+<P>Now that the TQuickReport component is set up, select the three placeholder TQRLabel components on the left side of the report form and delete them. (The text in each component ends with &quot;. . .goes here.&quot;)
+<BR>
+<P>Next, drop four TQRDBText components on to the report's detail band (the middle one) and space them equally across the band. Select all four of them; then bring up the Object Inspector and set the TDataSource property they share to the TDataSource on your data module. Next, select just the first TQRDBText component and set its DataField property to the Species No field in the BIOLIFE table. Click the second TQRDBText and set its DataField property to the Category BIOLIFE field. Set the third TQRDBText field to reference the Common_Name field and the fourth to reference the Length_In field.
+<BR>
+<P>When all the fields are set up, drop TQRLabel components onto the form's PageHeader band (the top one) to correspond with each TQRDBText. These will serve as column headings, so set each control's Caption property to match the column under it in the report's detail band. You might also consider bolding or underlining the column headings to make them stand out. Figure 18.13 shows what your report might look like.
+<BR>
+<P><B><A HREF="18tye13.gif">Figure 18.13. Your report with columns and column headings in place.</A></B>
+<BR>
+<P>You've now finished the basic report we were building to list the BIOLIFE table. Now you're ready to link the report into your application so that it can be displayed and printed at runtime.
+<BR>
+<P>Load the BIOLIFE form you created yesterday into the Form Designer; then select its top TPanel component. Locate the TButton component on the Standard page of the C++Builder Component Palette; then drop one on to the right side of the your form's top TPanel control. Change the button's Caption to &amp;Report; then double-click it to set the button's OnClick event. Key the following code into the C++Builder Code Editor:
+<BR>
+<BR>
+<PRE>
+<FONT COLOR="#000080">QRListForm-&gt;QuickReport-&gt;Preview();</FONT></PRE>
+<P>Next, select the Include Unit option on the File menu and double-click on your report form's unit file to add it to the include list of your BIOLIFE form. This makes the QRListForm report form and its QuickReport component visible to your BIOLIFE form&#151;it's what enables you to call the Preview() method.
+<BR>
+<P>Next, select Options from the Project menu and set your BIOLIFE form as the app's main form. This way, when you run the app, you'll see the BIOLIFE form first.
+<BR>
+<P>You're now ready to run the app and test your report. Press F9 to execute your application; then click the Report button on the BIOLIFE form. Figure 18.14 shows what you might see.
+<BR>
+<P><B><A HREF="18tye14.gif">Figure 18.14. Your report as it might appear at runtime.</A></B>
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE>Running a QuickReport report form that uses a TDataSource that's also in use by a form has the unfortunate side effect of scrolling the TDataSource as it places rows on the report. This means that the form will scroll with it. When the report finishes printing, you may not be at the same row you were when the report started. You can work around this via TTable's GetBookmark and GotoBookmark methods. See the C++Builder documentation for more information.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>When you've finished viewing your report, close it and your application and return to C++Builder.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I8"></A><B>Summary</B></FONT></CENTER></H3>
+<BR>
+<P>In this chapter you have learned to use data modules in your data applications. You have also learned to define your own BDE aliases and make use of them in your apps. You have learned to build master/detail forms and you to design simple reports using C++Builder's QuickReport components.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I9"></A><B>Workshop</B></FONT></CENTER></H3>
+<BR>
+<P><A NAME="I10"></A>The Workshop contains quiz questions to help you solidify your understanding of the material covered and exercises to provide you with experience in using what you have learned. You can find answers to the quiz in Appendix A, &quot;Answers to Quiz Questions.&quot;
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><B>Q&amp;A</B></FONT></CENTER></H4>
+<BR>
+<P><B>Q: What property is used to set up link queries in C++Builder?</B>
+<BR>
+<P><B>A: </B>The DataSource property.
+<BR>
+<P><B>Q: What facility within C++Builder can be used to define BDE aliases?</B>
+<BR>
+<P><B>A: </B>The Database (or SQL) Explorer.
+<BR>
+<P><B>Q: What are two ways C++Builder provides of constructing reports?</B>
+<BR>
+<P><B>A: </B>Using the QuickReport components and using ReportSmith.
+<BR>
+<P><B>Q: What's the best way to create tables and other database objects for use by my applications?</B>
+<BR>
+<P>A: The Database Desktop (included with C++Builder) is a stripped-down version of Borland's popular Paradox for Windows local DBMS. You'll find it well suited to creating tables, indexes, and related database elements.
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I11"></A><B>Quiz</B></FONT></CENTER></H4>
+<BR>
+<OL>
+<LI>What property of the TDatabase component determines the name other components will use to refer to a given TDatabase?
+<BR>
+<LI>What option on the File menu allows one unit to reference another?
+<BR>
+<LI>Where are C++Builder's report form templates located?
+<BR>
+<LI>What are some of the advantages of using data modules?
+<BR>
+</OL>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I12"></A><B>Exercises</B></FONT></CENTER></H4>
+<BR>
+<OL>
+<LI>Construct a BDE alias using the BDE Configuration program rather than the C++Builder Database Explorer.
+<BR>
+<LI>Build a master/detail report using the C++Builder master/detail report template and the CUSTOMER and ORDERS tables you used today.
+<BR>
+</OL><P ALIGN=CENTER>
+<A HREF="tye17.htm" TARGET="_self"><IMG SRC="blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="#I0" TARGET="_self"><IMG SRC="blantop.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Page Top"></A>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blantoc.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="TOC"></A>
+</BODY></HTML>

@@ -1,0 +1,363 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Using another object's private data </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+January, 1994 - Vol. 1 No. 1 
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Using another object's private data<!--Using another object's private data-->
+</H1>
+
+<P>
+If you've used C++ for very long, you're probably
+familiar with the <TT>public</TT>, <TT>protected</TT>, and <TT>private</TT>
+keywords. You use these keywords to set the access for data members
+in a struct or a class. If you're not familiar with these
+access specifiers, see &quot;Taking Advantage of Private and
+Protected Class Members&quot; in the July/August 1993 issue of
+<I>Inside Turbo C++</I>. Experienced C++ programmers usually protect
+a class's data members from inappropriate access by other
+classes by making the members <TT>protected</TT>, or even better,
+<TT>private</TT>.
+<P>
+However, if you're writing a member function that needs
+access to the <TT>private</TT> data of another instance of the
+same class, you might try copying that <TT>private</TT> data by
+calling <I>access functions</I> that pass back copies of the data.
+This situation usually occurs when you're creating copy
+constructors or <TT>operator=</TT> functions.
+<P>
+Using access functions to copy <TT>private</TT> data from either
+large classes or classes with large data members can be very inefficient.
+When you do so, the compiler will usually copy the data to and
+from the stack each time you call the access function. Fortunately,
+any class's member functions have full access to all members
+of another instance of <I>the same class</I>. As Figure A shows,
+this means that one instance of class <TT>EmployeeRecord</TT>
+can directly use <TT>public</TT>, <TT>protected</TT>, and even
+<TT>private</TT> members of another <TT>EmployeeRecord</TT> object
+via a pointer or reference variable for the other instance.
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=357 HEIGHT=181 SRC="bcj1_1a1.gif">
+<BR>
+<STRONG> 
+Figure A - Member functions have full access to the data members of other objects from the same class. 
+</STRONG>
+<P>
+In this article, we'll show you how to make your member
+functions more efficient by taking advantage of <TT>private</TT>
+data access between objects of the same class. Let's begin
+by looking at the rules for access to <TT>private</TT> members.
+<H3>Private lessons</H3>
+
+<P>
+When you define a class that has a <TT>private</TT> member, you
+restrict other classes' access to that member. (For the
+remainder of the article, we'll talk about accessing the
+data members of classes even though this technique applies to
+structs equally well.) Figure B shows the definition
+of a class that has a <TT>private</TT> array of 20 bytes.
+<P><HR>
+<P>
+<STRONG>
+Figure B - Class A has a private member that's inaccessible to other classes.</STRONG>
+
+<PRE>
+class A
+{
+  private:
+    unsigned char    byteArray[20];
+
+  public:
+    unsigned char    getByte(int byteNumber);
+    void    setByte(int byteNumber, unsigned char newByte);
+};
+</PRE>
+<HR>
+<P>
+Only member functions of class <TT>A</TT> (such as <TT>getByte()</TT>
+and <TT>setByte()</TT>) or friend functions can use <TT>byteArray</TT>.
+Other classes (even those you derive from class <TT>A</TT>) or
+functions can't use <TT>byteArray</TT> in an object of
+class <TT>A</TT>. 
+<H4>Access functions</H4>
+
+<P>
+To use data despite the <TT>private</TT> access restriction, most
+programmers provide access functions such as <TT>getByte()</TT>
+and <TT>setByte()</TT> for classes with <TT>private</TT> members,
+like class <TT>A</TT>. However, most functions you write that
+provide access to <TT>private</TT> data will pass that data by
+value. 
+<P>
+For data members that are simple types, pass-by-value access functions
+are frequently appropriate. For data members that are structs
+or classes, however, pass-by-value functions may be costly in
+terms of stack space. For other types of data, such as portions
+of an array, pass-by-value functions may be very inefficient or
+impossible to write.
+<P>
+For example, copying all 20 bytes of <TT>byteArray</TT> to another
+class <TT>A</TT> object by using <BR>
+the <TT>getByte()</TT> and <TT>setByte()</TT> access functions
+would be much slower than simply calling the <TT>memcpy()</TT>
+library function with the source and destination pointers. Since
+the array is <TT>private</TT>, this may seem impossible. However,
+Borland C++ imposes no restrictions between two objects of the
+<I>same</I> class.
+<H4>When private data isn't private</H4>
+
+<P>
+Many times, you'll define a member function that has an
+instance of its own class as one of the function's arguments
+(as either a pointer or a reference). When this happens, that
+function can use any of the <TT>public</TT>, <TT>protected</TT>,
+or <TT>private</TT> members defined within that class.
+<P>
+Member functions use the implicit <TT>this</TT> pointer to identify
+the instance data to use at runtime. If the parameter list of
+a member function supplies additional pointers to objects of the
+same type, the function has the same full access to the data at
+those pointer addresses as it has with the <TT>this</TT> pointer.
+In fact, you can't restrict member or friend functions
+on an object-by-object basis, because the compiler treats all
+pointers of the same type in the same way. Now, let's look
+at an example of using the <TT>private</TT> data of another object
+from inside a member function.
+<H3>Using direct access <BR>
+for efficiency</H3>
+
+<P>
+To start our example, launch the Windows version of the Borland
+C++ Integrated Development Environment (IDE), or you can use the
+DOS IDE. When the IDE main window opens, choose New from the File
+menu, and enter the code from Listing A.
+<P><HR>
+<P>
+<STRONG>
+Listing A: Class A_Plus 
+</STRONG>
+
+<PRE>
+// New and improved version
+class A_Plus
+{
+  private:
+    unsigned char    byteArray[20];
+
+  public:
+    void  rangeCopy(A_Plus * source, 
+                    int start, int count);
+
+    unsigned char  getByte(int byteNumber)
+        { return byteArray[byteNumber]; }
+
+    void  setByte(int byteNumber,
+                  unsigned char newByte)
+        { byteArray[byteNumber] = newByte; }
+};
+#include &lt;mem.h&gt;    // Allows us to use memcpy() below
+
+// This function fails during compile
+void copyBytes(A_Plus * dest, A_Plus * source)
+{
+    memcpy((void*)(dest-&gt;byteArray), 
+           (void*)(source-&gt;byteArray), 20);
+}
+
+// This member function compiles without error
+void A_Plus::rangeCopy(A_Plus * source, 
+                       int start, int count)
+{
+    memcpy((void*)&amp;(byteArray[start]),
+          (void*)&amp;(source-&gt;byteArray[start]),
+          count);
+}
+</PRE>
+<HR>
+<P>
+Save your source file by choosing Save from the File menu. When
+the Save File As dialog box appears, enter <I>A_PLUS.CPP</I> in
+the File Name entry field, and click the OK button.
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=360 HEIGHT=315 SRC="bcj1_1a3.gif">
+<BR>
+<STRONG> 
+Figure C - The Compile Status dialog box reports errors in the source file. 
+</STRONG>
+<P>
+Now, compile A_PLUS.CPP by selecting Compile from the Compile
+window. When the compiler finishes with the source file, the Compile
+Status dialog box reports two errors and two warnings, as shown
+in Figure C.
+
+
+
+<P>
+Click the OK button to dismiss the Compile Status dialog box.
+As Figure D shows, when the Message window appears, it identifies
+the two errors as access violations and the two warnings as unused
+parameters. 
+<BR CLEAR=ALL>
+
+
+<P>
+<STRONG> 
+Figure D - The Message window identifies the locations and types of errors and warnings. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=571 HEIGHT=138 SRC="bcj1_1a4.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+The two errors occur because the function <TT>copyBytes()</TT>
+doesn't have legal access to the <TT>private</TT> member
+<TT>byteArray</TT>. Now, double-click on the first error in the
+Message window to have the IDE position the cursor at the error's
+location in the file. As Figure E shows, the cursor appears just
+behind <TT>(dest-&gt;byteArray)</TT>. 
+
+
+<P>
+<STRONG> 
+Figure E - Double-clicking on an error or warning in the Message window moves the source window to the front and moves the cursor to the location of the error. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=503 HEIGHT=211 SRC="bcj1_1a5.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+You'll notice that the compiler didn't complain
+about the member function <TT>rangeCopy()</TT>. The <TT>rangeCopy()</TT>
+function compiles correctly because, as a member function, it
+has access rights to any object of its class.
+<P>
+The two warnings in the Message window occur because the compiler can't use
+the illegal identifiers <TT>dest-&gt;byteArray</TT> and <TT>source-&gt;byteArray</TT>.
+Before going further, let's change this source file so
+the <TT>copyBytes()</TT> function will compile correctly. 
+<P>
+As we mentioned earlier, the only functions that have legal access
+to <TT>byteArray</TT> are member functions of class <TT>A_Plus</TT>
+or normal functions that you declare to be friends of class <TT>A_Plus</TT>.
+To allow the <TT>copyBytes()</TT> function legal access to the
+<TT>byteArray</TT> member of any object of class <TT>A</TT>, add
+the following line to the <TT>public</TT> section of the class
+<TT>A</TT> definition:<BR>
+<PRE>friend void copyBytes(A_Plus * source, A_Plus * dest);<BR>
+</PRE>
+Now, choose Compile from the Compile menu to reprocess the A_PLUS.CPP
+source file. When the compiler finishes with the new version of
+the source file, the Compile Status dialog box displays no errors
+<BR>
+or warnings.
+<H3>Remember your inheritance</H3>
+
+<P>
+When you design <TT>public</TT> or <TT>protected</TT> member functions
+that modify the <TT>private</TT> data of another instance of the
+class, keep in mind that you can pass a publicly inherited class
+of the member function's class to that function. When you
+pass an object of a publicly inherited class to a function that
+expects a base class object, the compiler will &quot;strip off&quot;
+the data that the inherited class adds to the base class. 
+<P>
+For example, let's derive a new class from class <TT>A_Plus</TT>,
+which we defined earlier. Figure F shows a possible class structure
+that adds two new data members to class <TT>A_Plus</TT>.
+<P><HR>
+<P>
+<STRONG>
+Figure F - Class A_PlusPlus adds two new data members to class A_Plus.</STRONG>
+
+<PRE>
+class A_PlusPlus : public A_Plus
+{
+  private:
+    int    length;
+    int    start;
+};
+</PRE>
+<HR>
+<P>
+You can now use any class <TT>A_PlusPlus</TT> object as a parameter
+to the <TT>copyBytes()</TT> function because the compiler can
+automatically convert an <TT>A_PlusPlus</TT> object into an <TT>A_Plus</TT>
+object. In addition, you can now call <TT>rangeCopy()</TT> from
+an <TT>A_Plus</TT> object with either an <TT>A_Plus</TT> object
+or an <TT>A_PlusPlus</TT> object. Finally, you can call the <TT>rangeCopy()</TT>
+function from an <TT>A_PlusPlus</TT> object with an <TT>A_Plus</TT>
+object or an <TT>A_PlusPlus</TT> object.
+<H3>Conclusion</H3>
+
+<P>
+By declaring a member as <TT>private</TT>, you can prevent nonfriend
+and nonmember functions from using that member. However, <TT>private</TT>
+data is still accessible to friend or member functions. In this
+article, we've shown you how to take advantage of the access
+that member functions can have to the <TT>private</TT> data of
+other instances of their class. 
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,204 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Customizing the IDE - Changing the default project settings </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+
+<P>
+<A NAME="TOP"></A>
+January, 1994 - Vol. 1 No. 1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Customizing the IDE - Changing the default project settings
+</H1>
+
+<P>
+You probably build most of your applications with the same compiler
+and linker options. For example, you may always build applications
+using the large memory model and pre-compiled headers. 
+<P>
+If you regularly use non-standard compiler settings, a memory
+model other than small, or paths that differ from the default
+settings, you may have to change these parameters each time you
+start a new project. Fortunately, you can determine the default
+settings for these options in new projects. In this article, we'll
+show you how to save your favorite project options as default
+settings. 
+<H3>The default project file</H3>
+
+<P>
+The Borland C++ Integrated Development Environment (IDE) stores
+all the default compiler options, the default paths, and the default
+memory model in the default project file, TCDEF.DPR (TCDEFW.DPR
+for the Windows-hosted IDE). The IDE stores this project file
+in the IDE's home directory (typically, \BORLANDC\BIN).
+<P>
+To change the default options for new projects, we'll first
+close any existing project file that may be open. Otherwise, the
+IDE will save any changes we make to project-related options in
+the open project's PRJ file.
+<P>
+Next, we'll set our compiler options and paths, and then
+select a memory model. These settings are going to become the
+defaults for all new projects, so we'll need to be sure
+we choose settings appropriate for most of our projects.
+<P>
+Finally, we'll save the new project options. If there isn't
+an open project file when you save project settings, the IDE puts
+those settings in the default project file. Now, let's
+change the default options for new projects.
+<H3>Changing your default SETTINGs</H3>
+
+<P>
+To begin, we'll launch the Windows version of the IDE.
+When the main IDE window opens, make sure there isn't an
+open project. As Figure A shows, when a project file is open,
+the IDE enables the Close Project command in the Project menu.
+
+<P><STRONG> 
+Figure A - You'll need to close an open project file before you can change the default project settings. 
+</STRONG>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=620 HEIGHT=387 SRC="bcj1_1d1.gif">
+<BR CLEAR=ALL>
+<P>
+If another project file is open, choose Close Project from the
+Project menu to close it. Now you'll be able to save your
+new project options to the default project file.
+<P>
+Now, choose Compiler from the Options menu, and then choose Code
+Generation&#133; from the Compiler submenu. Click the Large radio
+button in the Model section to specify the new default memory
+model. Then, select the Pre-compiled Headers and Duplicate Strings
+Merged check boxes from the Options section to specify the new
+compiler settings. When you finish making these changes, the Code
+Generation Options dialog box should resemble the one shown in
+Figure B.
+
+
+
+
+<P>
+<IMG
+	ALIGN= left
+	HSPACE=20 VSPACE=5  WIDTH=420 HEIGHT=348 SRC="bcj1_1d2.gif">
+<BR>
+<STRONG> 
+Figure B - You set the memory model and general compiler options from the Code Generation Options dialog box. 
+</STRONG>
+<P>
+Click the OK button to close this dialog box. Your project changes
+are now in the  compiler's memory. For these changes to
+take effect, you'll need to save them to the project's
+disk file.
+<P>
+Choose Save&#133; from the Options menu. When the Save Options
+dialog box appears, deselect the Environment and Desktop check
+boxes, and leave the Project check box selected, as shown in Figure
+C.
+<BR CLEAR=ALL>
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=255 HEIGHT=185 SRC="bcj1_1d3.gif">
+<BR>
+<STRONG> 
+Figure C - You save the current project settings from the Save Options dialog box. 
+</STRONG>
+<P>
+Click the OK button to save your project options to the default
+project file. Now, let's create a new project that uses
+our customized default options.
+<H3>Using the new default SETTINGs</H3>
+
+<P>
+Choose Open Project&#133; from the Project menu. When the Open
+Project File dialog box appears, enter <I>TEST.PRJ </I>in the
+File Name text box, as shown in Figure D.
+<BR CLEAR=ALL>
+
+<P>
+<IMG
+	ALIGN= left
+	HSPACE=20 VSPACE=5  WIDTH=395 HEIGHT=266 SRC="bcj1_1d4.gif">
+<BR>
+<STRONG> 
+Figure D - New projects will now use your custom project defaults. 
+</STRONG>
+
+<P>
+Choose Compiler from the Options menu, and then choose Code Generation&#133;
+from the Compiler submenu. When the Code Generation Options dialog
+box appears, confirm that the new memory model and compiler settings
+are in effect for this project.
+<P>
+Click the Cancel button to close this dialog box, and then choose
+Close Project from the Project menu to close the new project file.
+Choose Exit from the File menu to shut down the IDE.
+<BR CLEAR=ALL>
+<H3>Conclusion</H3>
+
+<P>
+The default project options in the Borland C++ IDE are frequently
+inappropriate for new projects. In this article, we showed you
+how to modify the default project file. By using this technique,
+you can start each new project with your favorite project-related
+options. 
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

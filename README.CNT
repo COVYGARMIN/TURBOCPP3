@@ -1,0 +1,21 @@
+:BASE README.HLP
+:Title Learn to Program with Borland C++Builder ReadMe
+:INDEX Borland C++Builder ReadMe = ReadMe.HLP
+
+1 Learn to Program with Borland C++Builder
+2 Welcome to Learn to Program with Borland C++Builder = WelcomeScreen
+2 Contacting Borland = ContactingBorland
+2 Product features = ProductFeatures
+2 Important information = ImportantInformation
+2 Errata for printed documentation = ManualCorrections
+1 Additional information about Borland C++Builder
+2 Default project files=DefaultProjectFiles
+2 TFont::Charset=TFont_Charset
+2 TWinControl::ImeMode=TWinControl_ImeMode2
+2 TWinControl::ImeName=TWinControl_ImeName2
+2 Enabling UNICODE in your C++Builder application=EnablingUNICODE
+2 Pascal interface procedure support in C++Builder=Pascalinterfaceproceduresupport
+2 Distributing applications not supported in the Learn to Program with Borland C++Builder edition=DistributingApplications
+
+:LINK Bcb.hlp
+:LINK Bcbvcl.hlp

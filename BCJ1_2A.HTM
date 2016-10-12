@@ -1,0 +1,280 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Generating an ObjectWindows application with the AppExpert </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+February, 1994 - Vol. 1 No. 2 
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Generating an ObjectWindows application with the AppExpert
+</H1>
+
+<P>
+If you use the ObjectWindows Library (OWL) to create Windows applications,
+you know how easy it can be to add new features to an OWL app.
+By taking advantage of Borland's programming experience,
+you can make your programs more durable and modular than if you
+start from scratch.
+<P>
+However, each time you start a new OWL project, you have to create
+the same core set of files that represents the beginnings of any
+OWL application. Even if you implement only the simplest OWL app,
+you have to create declaration and implementation files for your
+subclass of the OWL class <TT>TApplication</TT>. If you're
+going to implement printing, Multiple Document Interface (MDI),
+or other major features of OWL 2.0, the basic file set grows even
+larger.
+<P>
+Fortunately, the Borland C++ 4.0 Integrated Development Environment
+(IDE) provides the AppExpert to automate the process of beginning
+an OWL project. In this article, we'll show you how to
+use the AppExpert to create the core files for an OWL application.
+Then, we'll work through an example that creates and builds
+a generic OWL application.
+<H3>What is the AppExpert?</H3>
+
+<P>
+You can create the project file and each of the primary OWL source
+and header files with the AppExpert component of the Borland C++
+4.0 IDE. This is because, as part of the IDE, the AppExpert knows
+the capabilities and behavior of the OWL classes. 
+<P>
+As shown in Figure A, the main AppExpert dialog box asks you for
+basic information about your project. The AppExpert then uses
+this information to generate the source files necessary to implement
+that project.
+
+<P>
+<STRONG> 
+Figure A - You select the application's major characteristics from the main AppExpert dialog box. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=567 HEIGHT=374 SRC="bcj1_2a1.gif">
+<BR CLEAR = ALL>
+<BR>
+<H3>Using the AppExpert</H3>
+
+<P>
+To begin using the AppExpert, you'll start the Borland
+C++ 4.0 IDE. From the IDE, you'll begin creating your project
+by choosing AppExpert... from the Project menu.
+<P>
+You'll enter the project name and path in the New Project
+dialog box when it appears. You can specify a new directory as
+part of the path if you don't already have a directory
+for this project. This will help you keep this project's
+files separate from the files of other projects.
+<P>
+Next, you'll select the appropriate options for the target
+application. Depending on how you set the Application, Main Window,
+and MDI Child/View options, the AppExpert will create only the
+files necessary.
+<P>
+You'll start the process by clicking the Generate button.
+When the AppExpert finishes creating the base project and all
+its files, you'll see the target project appear in the
+Project window.
+<P>
+At this point, you'll have a project that compiles into
+a complete Windows application. Now, let's use the AppExpert
+to create a generic application.
+<H3>Creating the files for a Generic Application</H3>
+
+<P>
+Start by launching the Borland C++ 4.0 IDE. When the IDE's
+main window appears, choose AppExpert... from the Project
+menu.
+<P>
+When the New Project dialog box appears, enter <I>\NEWPRJ\FIRST</I>
+in the File Name entry field, as shown in Figure B. If the \NEWPRJ
+directory doesn't exist, the AppExpert will create it for
+you. Click the OK button to move to the main AppExpert dialog
+box.
+
+
+<P>
+<IMG
+        ALIGN= right
+        HSPACE=20 VSPACE=5  WIDTH=463 HEIGHT=313 SRC="bcj1_2a2.gif">
+<BR>
+<STRONG> 
+Figure B - Enter the name and path for the new application in the New Project dialog box. 
+</STRONG>
+<BR CLEAR = ALL>
+<BR>
+<P>
+When the AppExpert Application Generation Options dialog box appears,
+locate the Application topic in the Topics list box. Click on
+the + icon next to the Application topic to see application-related
+subtopics. Select the subtopic Admin Options in the Topics list
+box. 
+<P>
+Then, in the Application: Administrative Options group, replace
+the name My Application in the Description entry field with <I>First
+AppExpert App</I>. Enter your name in the Author entry field,
+and then enter the name of your company in the Company entry field.
+Figure C shows our completed Administrative Options fields.
+
+
+<P>
+<STRONG> 
+Figure C - You can customize the administrative information that the AppExpert generates. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=567 HEIGHT=374 SRC="bcj1_2a3.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+Begin creating the project by clicking the Generate button. Before
+the AppExpert produces the source files, it displays the Generate
+dialog box to confirm your application name and path, as shown
+in Figure D.
+
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=348 HEIGHT=203 SRC="bcj1_2a4.gif">
+<BR>
+<STRONG> 
+Figure D - You must verify the project name and path before the AppExpert will create the source files. 
+</STRONG>
+<P>
+When you click the Yes button, the AppExpert begins writing new
+header and source files for your project. As the AppExpert writes
+these files to disk, you'll see each file's name
+appear in a status window.
+<P>
+When the AppExpert has created all the necessary files, it displays
+the Project window. As Figure E shows, the new project contains
+the target program, FIRST.EXE. Click on the target icon to see
+all the new files for this project. 
+
+
+
+<P>
+<STRONG> 
+Figure E - The AppExpert creates a new target executable file and all the major implementation files.
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=614 HEIGHT=386 SRC="bcj1_2a5.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+Now, take a closer look at the contents of the main application
+source file. Double-click on the file &quot;firstapp [.cpp]
+TApplication&quot; so you can see how the AppExpert automatically
+implements the <TT>firstApp</TT> class it derives from the OWL
+class <TT>TApplication</TT>. As Figure F shows, the AppExpert
+adds a number of useful comments to these new files.
+
+
+<P>
+<STRONG> 
+Figure F - Your project information appears at the top of each file that the AppExpert generates. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=540 HEIGHT=266 SRC="bcj1_2a6.gif">
+<BR CLEAR = ALL>
+<BR>
+<H3>Testing the Generic Application</H3>
+
+<P>
+To build and run the AppExpert's generic application, choose
+Run from the Debug menu. The Compile Status window then appears
+and gives you information about the condition of the current compile
+process.
+<P>
+When the compiler finishes building your application, it will
+run the application. By default, the AppExpert generates a simple
+text file editor application. 
+<P>
+When the new application runs, open a text file by choosing Open...
+from the File menu. Enter <I>FIRSTAPP.CPP</I> in the File Name
+entry field and click the OK button. Figure G shows how the new
+application will appear when you run it and open the FIRSTAPP.CPP
+file.
+
+
+<P>
+<STRONG> 
+Figure G - Your AppExpert application can create, open, and print simple ASCII text files. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=526 HEIGHT=298 SRC="bcj1_2a7.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+Quit the new application by choosing Exit from the File menu.
+When the IDE's main window reappears, choose Close Project
+from the Project menu.
+<H3>Conclusion</H3>
+
+<P>
+The ObjectWindows class library makes it much easier for you to
+build professional Windows applications. However, even with ObjectWindows,
+creating the basic implementation files can be a lot of work.
+By starting your ObjectWindows projects with the AppExpert, you
+can complete the shell of a Windows application in a matter of
+minutes. 
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

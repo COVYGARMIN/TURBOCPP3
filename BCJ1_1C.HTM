@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Optimizing your header files </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+January, 1994 - Vol. 1 No. 1 
+
+
+
+
+
+
+
+
+
+
+
+<H1>Optimizing your header files
+</H1>
+
+<P>
+In the accompanying article, <A HREF="bcj1_1b.htm">Productivity Tip - Saving time with pre-compiled headers</A>, we mention that all source files must have their
+<TT>#include</TT> directives in the same order for the compiler
+to be able to reuse the pre-compiled header information. One of
+the easiest ways to maintain the order of your header files is
+to move the <TT>#include</TT> directives for each header file
+into a common header file. Then, you can add an <TT>#include</TT>
+directive for the one common header file in each of your source
+files. However, this approach creates dependencies between each
+source file and any of the header files.
+<P>
+On the other hand, being careless about the order of your <TT>#include</TT>
+files can result in the compiler unnecessarily reprocessing some
+of them. For projects such as WINDOWS.H that use a large header
+file for a Library, reprocessing a header file may significantly
+increase the compile time. The best solution lies somewhere between
+the extremes of pre-compiling every header file you'll
+ever need in the project and not pre-compiling header files at
+all. Here, we'll give you our guidelines for organizing
+your header files to optimize the processing of pre-compiled headers.
+In addition, our strategy for organizing your source and header
+files applies to object-oriented projects under Borland C++.
+<H4>CREATE SEPARATE HEADER FILES FOR EACH USER-DEFINED TYPE</H4>
+
+<P>
+You should usually create a separate header file for each user-defined
+type (class or struct) or for logically related functions. These
+files specify the interface and definition of the user-defined
+type, and they will probably change many times over the course
+of the project. 
+<P>
+In some cases, two or more classes or structs may have a strong
+relationship or may be highly dependent on each other. Grouping
+together the definitions of these types may be a valuable reminder
+of their relationship, but unfortunately, it forces a recompile
+of their corresponding source files when either type definition
+changes.
+<H4>INCLUDE USER-DEFINED TYPE HEADER FILES ONLY WHERE NECESSARY
+</H4>
+
+<P>
+A change in a header file should force a recompile only of the
+corresponding implementation file and any files that use functions
+or types defined in the header file. Therefore, don't add
+<TT>#include</TT> directives for header files that define types
+within a given project in every source file. Since the header
+files for most user-defined types are relatively small, reprocessing
+them once or twice will not affect your compile time substantially.
+<H4>INCLUDE LIBRARY HEADER FILES IN ALL SOURCE FILES</H4>
+
+<P>
+To maximize the visibility of their functions or classes and to
+optimize the use of pre-compiled headers, put <TT>#include</TT>
+directives for Library header files in a common header file. You
+should use an <TT>#include</TT> directive for this common header
+file in all source files in the project as the first <TT>#include</TT>
+directive. Since larger Library headers are less likely to change
+than smaller ones, you should place <TT>#include</TT> directives
+at the beginning of each source file in decreasing order of size.
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

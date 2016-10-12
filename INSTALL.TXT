@@ -1,0 +1,428 @@
+INSTALL.TXT
+Borland C++Builder 
+===============================================================
+
+---------------------------------------------------------------
+CONTENTS
+---------------------------------------------------------------
+
+SECTION 0. System Requirements
+A. Minimum System Requirements
+B. Compact Installation
+C. Full Installation
+D. Installation Conflicts
+E. Installing C++Builder, Interbase, and InstallShield Express
+
+SECTION 1. Installation Notes
+A. Known Installation Issues
+B. Hard Drive Installation
+C. Files Available on the CD
+
+SECTION 2. Changing Your System Configuration
+A. Safe Mode Boot under Windows 95 
+B. VGA Mode under Windows NT
+C. Additional Notes 
+
+SECTION 3. Troubleshooting Installation Error Messages
+
+SECTION 4. Registry Changes
+A. Key Names and Values
+B. File Extension Associations 
+
+SECTION 5. Other Ways to Get Help
+A. Calling Technical Support
+B. Relevant Telephone Numbers
+C. Online Services
+
+---------------------------------------------------------------
+SECTION 0 System Requirements
+---------------------------------------------------------------
+
+A. Minimum System Requirements
+---------------------------------------------------------------
+To install and run Borland C++Builder, you must meet the
+following minimum system requirements:
+
+* 16 MB RAM (24 MB recommended)
+* 80486 processor or better
+* Windows 95 or Windows NT (3.51 or 4.0)
+* 80 to 175 MB of free hard disk space (195 MB for
+  the Client/Server Suite), subject to the 
+  installation options you choose and cluster
+  size.
+
+
+B. Compact Installation
+---------------------------------------------------------------
+A minimum installation of Borland C++Builder includes Borland
+C++Builder, as well as the Borland Database Engine, and is
+called the "Compact" install by the installation program. It
+does not include the Database Desktop, Local InterBase, or SQL
+Links.  A compact installation of Borland C++Builder will take
+approximately 80 MB of hard disk space.  To perform a compact
+installation, choose the "Compact" installation option on the
+installation options page.
+
+
+C. Full Installation
+---------------------------------------------------------------
+A full installation of C++Builder includes all the tools
+available, the Windows-hosted IDE, and allows development for
+32-bit Windows.  This is called the "Full" install by the
+installation program, and requires approximately 125 MB of hard
+disk space.
+
+
+D. Installation Conflicts
+---------------------------------------------------------------
+To avoid potential conflicts when Setup installs system files,
+we recommend that you close down all other running applications
+before installing Borland C++Builder.  To get a listing of
+applications running on your machine, either:
+
+- Under Windows 95:
+  Look at the taskbar on which the Start button is located. 
+  OR
+  Press Ctrl+Alt+Delete (once) and look at your Close Program
+  list (click Cancel to exit the list).
+
+- Under Windows NT 4.0:
+  Look at the taskbar on which the Start button is located. 
+  OR
+  Press Ctrl+Alt+Delete (once), and choose Task Manager to 
+  see the list of programs running on your system 
+  (Choose File|Exit Task Manager to exit the list).
+
+- Under Windows NT 3.51:
+  Double-click on the background (behind Program Manager).
+  This brings up the Task List (click Cancel to exit
+  the list).
+
+
+E.  Installing C++Builder, Interbase, and InstallShield Express
+---------------------------------------------------------------
+Not all of the listed products below are available in all
+versions of Borland C++Builder.  Listed below are all the
+relevant paths to the various setup programs, and the packages
+that each product is included in.
+
+1) Borland C++Builder (all packages)
+   To install Borland C++Builder from the CD, 
+   run \SETUP\CBUILDER\SETUP.EXE
+
+2) Local InterBase (Client/Server and Professional packages only)
+   To install Local InterBase, 
+   run \SETUP\LOCALIB\DISK1\SETUP.EXE
+
+3) InterBase Server (Client/Server package only)
+   To install the InterBase Server, 
+   run \SETUP\SERVERIB\DISK1\SETUP.EXE
+
+4) InstallShield Espress (Client/Server and Professional
+   packages only)
+   To install InstallShield Express,
+   run \SETUP\ISX\SETUP.EXE
+
+---------------------------------------------------------------
+SECTION 1. Installation Notes
+---------------------------------------------------------------
+
+A. Known Installation Issues
+---------------------------------------------------------------
+1.  Installation sometimes reports misleading "out of disk
+    space" error message.
+
+    If you install Borland C++Builder on a drive other than
+    the drive on which Windows resides, check to be sure that
+    you have more than 32 MB of disk space free on your Windows
+    drive (usually C:).  Otherwise, it is possible that the
+    installation program will report that you have run out of
+    disk space.  This usually does not mean that you ran out of
+    space on the drive on which you are installing Borland
+    C++Builder.  It usually means that you ran out of space on
+    the Windows drive, because C++Builder must install several
+    files into the Windows directory structure.
+
+    Also note:  If you install separate components on different
+    drives on your machine, the disk space reported per drive
+    and for each component may be incorrect.  You should
+    manually ensure that you have enough disk space for each
+    component before attempting to install it.
+
+2.  Install program unable to create groups with certain
+    characters.
+
+    In the installation, when you get to the screen where you
+    can specify the name of the program group you want to be
+    created, you cannot include parenthesis '(' and ')' or
+    commas ',' in the group name.
+
+3.  Problems using Symantec's Norton Navigator.
+
+    If you have Symantec's Norton Desktop for Windows 95
+    installed and you launch \SETUP.EXE from the Navigator, you
+    will see the Borland C++Builder installation begin, but
+    instead of the installation displaying on the desktop, it
+    will be viewable through the main view only.  The
+    installation is still running, but it is just not visible
+    on the desktop.
+
+4.  Cannot install while uninstall running.
+
+    If you attempt to run \SETUP.EXE while a copy of the
+    uninstall program is running, you will receive errors.
+    DO NOT run the installation program while the uninstall is
+    running.  If you're not sure if the uninstall is running,
+    follow the instructions in Section 0 D to determine what
+    is running on your machine before running \SETUP.EXE.
+
+
+B. Hard Drive Installation
+---------------------------------------------------------------
+Installing from a CD-ROM may cause synchronization difficulties
+between various pieces of hardware or certain hardware drivers.
+If you suspect that your CD-ROM drive or your CD-ROM driver
+might be at fault, you can attempt a hard drive installation.
+
+To begin, copy the entire setup directory into a temporary
+directory on your C:\ drive. The setup directory contains all
+the files needed for the installation.  Once these have been
+successfully copied, restart your machine in SAFE MODE or VGA
+MODE by following the appropriate instructions in section 2 of
+this document, and then attempt to install the product.
+
+When running the install, remember to change the SOURCE 
+directory so that it points to the temporary directory.
+
+
+C. Files Available on the CD
+---------------------------------------------------------------
+Most of the files installed in your target directory by the 
+SETUP.EXE program are on the distribution CD in the CBUILDER 
+directory. You must use SETUP.EXE to install C++Builder, but 
+you can copy files from this directory tree on the CD if any 
+files are lost or damaged during or after installation.
+
+
+---------------------------------------------------------------
+SECTION 2. Changing Your System Configuration
+---------------------------------------------------------------
+It is recommended that you change your system configuration if
+you encounter problems when installing new software.
+Windows 95 and Windows NT each have their own method, as
+follows.
+
+
+A. Safe Mode Boot under Windows 95 
+---------------------------------------------------------------
+Under Windows 95, the method for booting in a simple system
+configuration is through safe mode, a boot option provided on
+the startup menu. To boot in Safe Mode, follow the instructions
+below:
+
+1. Shut down the machine and reboot.
+2. Before the Windows 95 splash screen appears
+   (but after the 'BEEP'), press F8.
+3. Select Safe Mode from the menu and press Enter.
+   You are now running in Windows 95 Safe Mode. 
+   Windows 95 informs you that you are running in a 
+   special diagnostic mode. Click OK and you
+   will be able to continue your work.
+
+Note:  Windows 95 does not recognize most CD-ROM drives in
+       Safe Mode.  If this is the case for your machine, 
+       you'll need to copy the files from the SETUP 
+       directory on the CD onto your hard drive and install 
+       from there (see hard drive install, section 1).
+
+
+B. VGA mode Boot under Windows NT 
+---------------------------------------------------------------
+Windows NT 3.51 uses a different method for changing to a
+simple system configuration.  To boot in VGA mode, follow the
+directions below:
+
+1. Shut down the machine and reboot it.
+2. When the OS choice menu appears, select number 2, 
+   Windows NT Workstation [VGA mode].
+   Windows NT will then boot itself in a clean mode.
+
+
+C. Additional Notes
+---------------------------------------------------------------
+In addition to following the appropriate instructions for your
+operating system in this section, be sure to follow the other
+instructions in section 0 regarding programs running in the
+background during installation.  The Safe Mode and VGA Mode
+boot processes remove extraneous drivers, but do not
+necessarily keep programs from running.
+
+
+---------------------------------------------------------------
+SECTION 3. Troubleshooting Installation Error Messages
+---------------------------------------------------------------
+This section contains a list of the most common error messages
+that can occur during installation. Each error message includes
+a suggested solution.  If you receive errors that are not
+listed here, please contact the Installation Line at the phone
+number listed in Section 5 of this document.
+
+-2:   Unable to open input file
+      Check that the Source directory is specified correctly, 
+      and that the file being copied is located in that
+      directory.
+
+-3:   Unable to open output file
+      Check that the Destination directory is specified
+      correctly, and that the file does not already exist in
+      that directory.  Also make sure that you have access
+      rights to write to the Destination directory.
+
+-4:   Unable to write to file.
+      Check the integrity of the source disk as well as the 
+      destination disk.  Make sure that there are no errors
+      on either disk
+
+-6:   Memory allocation error.
+      Not enough memory is currently available for the
+      installation to proceed.  Close down other applications
+      to free memory.
+
+-9:   Source and target directories conflict.
+      Make sure that the source directory listed and the target
+      directory listed are different.
+
+-27:  Unable to create directory
+      The installation program was unable to create the target 
+      directory specified.  Please check that this directory
+      does not already exist and that you have access
+      privileges to that area.
+
+-38:  Not enough disk space on target drive
+      There is not enough hard disk space on the target drive
+      specified.  Free more space before attempting to
+      reinstall.
+
+-46:  Target file is read-only
+      The file currently being written is marked as read-only
+      and cannot be overwritten.  Delete or rename the
+      currently existing copy of this file before continuing.
+
+-401: String too long
+      Your system path statement is too long.  Check your path
+      and shorten if possible.
+
+
+---------------------------------------------------------------
+SECTION 4. Registry Changes
+---------------------------------------------------------------
+The registry under Windows 95 and Windows NT is the file where
+information concerning all software added to the system is
+logged and kept for reference. You can access the registry by
+using the registry editor (regedit or regedt32 under Windows NT
+3.51) to view and change the registry, if necessary. (There is
+almost never a reason to do this manually.) 
+
+Following is a list of changes made to the registry when 
+Borland C++Builder is installed.
+
+
+A. Key Names added
+---------------------------------------------------------------
+HKEY_CURRENT_USER
+Key Name: SOFTWARE\Borland\C++Builder
+Key Name: SOFTWARE\Borland\DBD
+
+HKEY_LOCAL_MACHINE
+Key Name: SOFTWARE\Borland\C++Builder
+Key Name: SOFTWARE\Borland\BLW32
+Key Name: SOFTWARE\Borland\Database Engine
+Key Name: SOFTWARE\Borland\InterBase
+Key Name: SOFTWARE\Borland\OpenHelp
+
+
+B. File Extension Associations
+---------------------------------------------------------------
+These are the file extension associations kept in the registry
+under HKEY_CLASSES_ROOT:
+
+HKEY_CLASSES_ROOT\.mak  = "BCBProjectFile"
+
+
+---------------------------------------------------------------
+SECTION 5. Other Ways to Get Help
+---------------------------------------------------------------
+
+A. Calling Technical Support
+---------------------------------------------------------------
+* Have your name, pin number, product, and version number
+  ready. This will speed the pace of your call.
+* If you don't have a pin number, call Technical Support
+  Information Services (TSIS), 1-800-523-7070.
+* Be sure to have read all relevant documentation.  Often, you
+  can avoid a long-distance or toll call by referring to the
+  documentation.
+* Be prepared to describe in detail exactly what you have done
+  so far while working on the problem.
+* Please be patient. We try to answer all customer questions as
+  thoroughly as possible.
+
+
+B. Relevant Telephone Numbers
+---------------------------------------------------------------
+Main Switchboard
+    (408) 431-1000
+
+C++ Installation Support
+    (408) 461-9133
+
+C++ Advisor Lines ($2.95/minute, first minute free)
+    1-800-782-5558 (charged to a credit card)
+
+TECHFAX line for receiving technical information documents:
+    1-800-822-4269 (no charge) 
+
+Product Order Desk
+    1-800-331-0877 (no charge)
+
+Customer Service and Disk Replacement
+    (510) 354-3828
+
+Telephone Product Registration
+    1-800-845-0147
+
+
+C. Online services
+---------------------------------------------------------------
+You can find support and information online at the following 
+locations:
+
+INTERNET: Download FTP Site
+    ftp.borland.com
+
+Download Bulletin Board System
+    (408) 431-5096
+
+World Wide Web: 
+    Borland Home Page
+    http://www.borland.com/
+
+    Technical Support Home Page
+    http://www.borland.com/techsupport/borlandcpp
+            
+    Borland C++ Information Page Search Page
+    http://www.borland.com/techsupport/borlandcpp/search.html
+      
+    Bug Submission/Publication Page
+    http://www.borland.com/techsupport/borlandcpp/bugpage.htm
+
+    Patches Available Page
+    http://www.borland.com/techsupport/borlandcpp/patches.html
+
+CompuServe: 
+    GO BORLAND to reach all Borland pages
+    GO BCPP for language and tools issues
+    GO BCPPLIB for library-specific issues
+
+
+/**********************END OF FILE****************************/

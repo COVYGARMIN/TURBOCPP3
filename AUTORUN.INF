@@ -1,0 +1,3 @@
+[AutoRun]
+open=autorun.exe LEARNTO setup\cbuilder\setup.exe
+icon=bcb.ico

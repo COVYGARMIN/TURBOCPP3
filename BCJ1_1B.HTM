@@ -1,0 +1,524 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Productivity Tip - Saving time with pre-compiled headers </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+January, 1994 - Vol. 1 No. 1 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Productivity Tip - Saving time with pre-compiled headers
+</H1>
+
+<P>
+Borland C++'s pre-compiled headers can save you a lot of
+time during program compiles. When the compiler processes any
+<TT>#include</TT> file for the first time, the compiler saves
+a binary image of the processed header information. Subsequent
+compiles of that <TT>#include</TT> file use that pre-compiled
+information instead of compiling the same file again. However,
+the compiler can't reuse that information unless you follow
+some very specific rules. 
+<P>
+Unfortunately, misapplying these rules can cause compile sessions
+to reprocess source files unnecessarily. On a large project, reprocessing
+the source files may waste more time than pre-compiling the header
+files saves. 
+<P>
+In this article, we'll show you how to organize your source
+files' <TT>#include</TT> directives so that the compiler
+can effectively reuse the pre-compiled header information. First,
+let's see how the compiler processes header files.
+<H3>Pre-compiled header basics</H3>
+
+<P>
+When the compiler processes a source file and finds an <TT>#include</TT>
+directive, it treats the contents of that file as if it were imbedded
+in the source file at that point. Figure A shows two equivalent
+source files: One uses an <TT>#include</TT> directive and the
+other contains the struct definition in the source file itself.
+
+<P>
+<STRONG> 
+Figure A - These two source files are functionally equivalent. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=508 HEIGHT=278 SRC="bcj1_1b1.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+As the compiler processes each <TT>#include</TT> file, it loads
+the type definitions into a symbol table that contains all the
+types and declarations for the current source file. If two source
+files contain the same <TT>#include</TT> file, the compiler will
+create an identical symbol table for that <TT>#include</TT> file
+when it processes the second source file.
+<P>
+If we could instead save the symbol table after the compiler processes
+the <TT>#include</TT> file, we could then simply load the symbol
+table from that file without having to reprocess the <TT>#include</TT>
+file. This is exactly what happens when you use pre-compiled headers.
+<P>
+The requirements for using pre-compiled headers in a Borland C++
+project are fairly simple. See <A HREF="bcj1_1c.htm">Optimizing your header files</A>, for some guidelines for organizing your
+header files. 
+<P>
+First, you must tell the compiler to pre-compile the header files,
+either from the Integrated Development Environment (IDE) or from
+the command line. Second, you must use the same language (C or
+C++) for each source file, and all <TT>#define</TT> macros must
+have identical values. Third, the time/date stamp must be the
+same on all <TT>#include</TT> files so the compiler will know
+they haven't changed since the last compile. Finally, you
+must use the <TT>#include</TT> directives in the same order in
+each source file, as shown in Figure B.
+
+
+<P>
+<STRONG> 
+Figure B - SOURCE2.CPP will reuse WINDOWS.H and HEADER1.H. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=508 HEIGHT=91 SRC="bcj1_1b2.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+If the two files shown in Figure B are part of the same project
+that uses pre-compiled headers, the compiler will process the
+first file and then reload the symbol table for WINDOWS.H and
+HEADER1.H when it begins processing the second file. After the
+compiler loads the symbol table, it will process HEADER2.H. However,
+if the compiler processes the files in reverse order, it will
+reprocess WINDOWS.H and HEADER1.H since HEADER2.H is already part
+of the symbol table but doesn't belong in SOURCE1.CPP.
+Now, let's work through a simple example that uses pre-compiled
+headers.
+<H3>Pre-compiling the headers for WHELLO.PRJ</H3>
+
+<P>
+To begin, launch the Windows version of the Borland C++ IDE (you
+can use either the DOS- or Windows-hosted environment for this
+example). After the IDE starts, choose Open Project...
+from the Project menu, change to the subdirectory \EXAMPLES\WIN30,
+and then select the WHELLO.PRJ project, as shown in Figure C.
+
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=395 HEIGHT=266 SRC="bcj1_1b3.gif">
+<BR>
+<STRONG> 
+Figure C - The Windows version of &quot;Hello World&quot; is one sample project in the \EXAMPLES\WIN30 subdirectory. 
+</STRONG>
+<P>
+Now, load the WHELLO.PRJ project by clicking the OK button in
+the Open Project File dialog box. When the Project:whello window
+appears, choose Compiler from the Options menu, and then choose
+Code Generation... from the Compiler submenu. Select
+the Pre-compiled Headers check box, as shown in Figure D, and
+then click the OK button to save the new setting.
+
+
+
+<P>
+<IMG
+        ALIGN= left
+        HSPACE=20 VSPACE=5  WIDTH=420 HEIGHT=348 SRC="bcj1_1b4.gif">
+<BR>
+<STRONG> 
+Figure D - You enable pre-compiled headers from the Code Generation Options dialog box. 
+</STRONG>
+<BR CLEAR = ALL>
+<BR>
+<P>
+Now, compile the Hello World project by choosing Make from the
+Compile menu. As the project compiles, notice that the compiler
+processes the entire WINDOWS.H header file. When the Compile Status
+dialog box displays &quot;Success&quot; as the current status,
+click the OK button to dismiss the dialog box. 
+<P>
+Since the compiler saved the compiled header information in a
+file, any changes that you make to the source file&#173&#173that
+don't affect the header files&#173&#173will recompile without
+reprocessing WINDOWS.H. To see this in action, open the main source
+file by double-clicking on WHELLO.CPP in the Project:whello window.
+<P>
+Locate the <TT>void MainWindow::Paint(void)</TT> function<TT>.</TT>
+Then, replace the word <TT>you</TT> in the string<BR>
+
+<PRE>
+&quot;Borland C++ welcomes you to the Wonderful World of Windows Programming!&quot;
+<BR>
+
+</PRE>
+
+<P>
+with your name. Figure E shows our changes to the <TT>Paint</TT>
+member function.
+
+
+<P>
+<STRONG> 
+Figure E - By changing MainWindow::Paint(), you force the project to recompile. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=633 HEIGHT=123 SRC="bcj1_1b5.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+Now, recompile the project by choosing Make from the Compile menu.
+This time, you'll notice that the compiler doesn't
+appear to process the header files at all but simply pauses briefly
+before compiling the functions in the source file. When the Compile
+Status dialog box displays &quot;Success&quot; as the current
+status, click the OK button to dismiss the dialog box. Table A
+shows the number of lines the compiler processed each time, as
+reported in the Compile Status dialog box.
+
+<P>
+<STRONG>
+ TABLE A - The second compile doesn't reprocess the pre-compiled header files.
+</STRONG>
+<TABLE BORDER=3 >
+<TR>
+ 	<TD COLSPAN=2>  <B> Number of lines compiled </B>  </TD>
+</TR>
+<TR>
+ 	<TD> First pass	</TD>
+ 	<TD> Second pass</TD>
+</TR>
+<TR>
+ 	<TD> 6,477</TD>
+ 	<TD> 281 </TD>
+</TR>
+</TABLE><P>
+During the pause at the beginning of the recompile, the compiler
+loaded the pre-compiled symbol table from the previous Make command.
+Now let's see how the pre-compiled symbol table reloads
+when multiple source files share the same <TT>#include</TT> files.
+<H4>Defining a type in an #include file</H4>
+
+<P>
+Locate the declaration of the <TT>Main</TT> class in the WHELLO.CPP
+file. Select the entire class declaration, as shown in Figure
+F, and then choose Cut from the Edit menu to
+move the text to the clipboard.
+
+
+<P>
+<STRONG> 
+Figure F - The Main class's declaration is embedded in the WHELLO.CPP source file. 
+</STRONG>
+<IMG
+ALIGN= "left" 
+HSPACE=0 VSPACE=5  WIDTH=633 HEIGHT=233 SRC="bcj1_1b6.gif">
+<BR CLEAR = ALL>
+<BR>
+<P>
+Create a header file for the <TT>Main</TT> class by choosing New...
+from the File menu and then choosing Paste from the Edit menu.
+Save this header file by choosing Save As... from the
+file menu, entering <I>HEADER1.H</I> in the File Name entry field
+of the Save File As dialog box, and then clicking the OK button.
+The window for the new header file should look like the one shown
+in Figure G.
+
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=370 HEIGHT=150 SRC="bcj1_1b7.gif">
+<BR>
+<STRONG> 
+Figure G - You can use the HEADER1.H header file to share the interface for the Main class between source files. 
+</STRONG>
+<P>
+Since WHELLO.CPP uses the <TT>Main</TT> class, move to the beginning
+of the file and type <I>#include &quot;header1.h&quot;</I> immediately
+after the line <TT>#include &lt;windows.h&gt;</TT>. Next, locate
+the function <TT>int MessageLoop(void)</TT> in the WHELLO.CPP
+source file, select the entire function, and then choose Cut from
+the File menu to move it to the clipboard. Create a new source
+file for the <TT>Main</TT> class's functions by choosing
+New... from the File menu. When the new window appears,
+enter the following:<BR>
+
+<PRE>
+#define STRICT<BR>
+
+#include &lt;windows.h&gt;
+#include &quot;header1.h&quot;<BR>
+
+</PRE>
+
+<P>
+To complete the new implementation file for the <TT>Main</TT>
+class, choose Paste from the Edit menu. Now, you can save this
+new source file by choosing Save As... from the File
+menu again, entering <I>WHELLO2.CPP</I> in the File Name entry
+field, and then clicking the OK button. When you finish saving
+the file, its window should look like the one shown in Figure
+H.
+
+
+
+<P>
+<IMG
+        ALIGN= left
+        HSPACE=20 VSPACE=5  WIDTH=455 HEIGHT=223 SRC="bcj1_1b8.gif">
+<BR>
+<STRONG> 
+Figure H - The source file WHELLO2.CPP implements the MessageLoop member function. 
+</STRONG>
+<BR CLEAR = ALL>
+<BR>
+<P>
+Now you can add the WHELLO2.CPP file to the current project. To
+do so, choose Project:whello from the Window menu, and the Project
+window will become the top window. Select WHELLO.CPP in the Project
+window, and then choose Add Item... from the Project
+menu. When the Add To Project List dialog box appears, select
+the file WHELLO2.CPP, and then click the Add button, as shown
+in Figure I.
+
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=395 HEIGHT=266 SRC="bcj1_1b9.gif">
+<BR>
+<STRONG> 
+Figure I - Add the source file WHELLO2.CPP to the current project from the Add To Project List dialog box. 
+</STRONG>
+<P>
+As the IDE adds the new source file to the project, the Add To
+Project List dialog box disappears. When the dialog box reappears,
+click the Done button to dismiss it.
+<P>
+Now, recompile the project by selecting Make from the Compile
+menu. When the Compile Status dialog box displays &quot;Success&quot;
+as the current status, notice that the duplicate <TT>#define</TT>
+and <TT>#include</TT> statements increased the number of compiled
+lines only slightly. Click the OK button to dismiss the dialog
+box. Now, let's move all the Library <TT>#include</TT>
+directives to a common header file.
+<H4>Changing to a common #include file</H4>
+
+<P>
+Select the line<BR>
+
+<PRE>
+#include &quot;header1.h&quot; <BR>
+
+</PRE>
+
+<P>
+in WHELLO.CPP, and choose Cut from the Edit menu. Then, move the
+cursor to the line after the last <TT>#include</TT> directive,
+and choose Paste from the Edit menu. Next, select the following
+lines:<BR>
+
+<PRE>
+#define STRICT<BR>
+
+#include &lt;windows.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;<BR>
+
+</PRE>
+
+<P>
+Now, choose Cut from the Edit menu to move the selected lines
+to the clipboard. In their place, enter<BR>
+
+<PRE>
+#include &quot;common.h&quot;<BR>
+
+</PRE>
+
+<P>
+To create the COMMON.H file, choose New... from the File
+menu, and then choose Paste from the Edit menu. Choose Save As...
+from the File menu. Then, type <I>COMMON.H</I> into the FileName
+text box, and click OK. The window for the common header file
+should look like the one shown in Figure J.
+
+
+
+<P>
+<IMG
+	ALIGN= left
+	HSPACE=20 VSPACE=5  WIDTH=370 HEIGHT=150 SRC="bcj1_1bA.gif">
+<BR>
+<STRONG> 
+Figure J - COMMON.H allows each source file to share the pre-compiled symbol table. 
+</STRONG>
+<P>
+Finally, locate the <TT>#include &lt;windows.h&gt;</TT> line in
+WHELLO.CPP, and replace <TT>&lt;windows.h&gt;</TT> with <I>&quot;common.h&quot;</I>,
+and then recompile by selecting Make from the Compile menu. When
+the Compile Status dialog box displays &quot;Success&quot;
+as the current status, click the OK button to dismiss the dialog
+box. 
+<H3>Other considerations</H3>
+
+<P>
+In addition to the guidelines we've already mentioned,
+there are some other changes you can make when you organize your
+projects. If you look closely at the Borland C++ Libraries&#173&#173TurboVision,
+ObjectWindows, or BIDS&#173&#173you'll notice that they
+guard against reprocessing header files within a given scope and
+that they create separate source files for the implementation
+of each defined type. You'll also notice that the <TT>#include</TT>
+dependencies match the inheritance relationships.
+<H4>Conditional compiles</H4>
+
+<P>
+To prevent the compiler from reprocessing a header file, most
+of the Borland Library header files use <I>conditional compile
+</I>directives. The most common form of conditional compiling
+that Borland uses relies on defining a constant macro whose name
+is uniquely related to a header file or to a type within that
+file.
+<P>
+For example, the Container Class Library defines the <TT>Array</TT>
+class in the file ARRAY.H. To prevent the file from being reprocessed
+in a given scope, ARRAY.H begins with the following directives:
+<BR>
+
+<PRE>
+#if !defined( __ARRAY_H )
+#define __ARRAY_H<BR>
+
+</PRE>
+
+<P>
+The <TT>#if !defined( __ARRAY_H )</TT> directive will allow the
+compile to continue normally if the compiler hasn't yet
+seen a definition for <TT>__ARRAY_H</TT> . Since the next line,
+<BR>
+
+<PRE>
+#define __ARRAY_H<BR>
+
+</PRE>
+
+<P>
+defines <TT>__ARRAY_H</TT>  in the current scope, additional compile
+passes in this scope will skip to the last line in the file:<BR>
+
+<PRE>
+#endif // __ARRAY_H<BR>
+
+</PRE>
+
+<P>
+In simple projects, this type of conditional compiling may seem
+like overkill. However, on larger projects in which you may be
+using classes from different levels of an inheritance tree, conditional
+compiling will prevent the redundant processing of your header
+files.
+<H4>Source files</H4>
+
+<P>
+You can prevent changes in the implementation of a class's
+member functions from forcing a recompile of other code by placing
+those functions in a source file for that class only. In the conditional
+compile example above, the <TT>Array</TT> class implements the
+non-inline member functions in ARRAY.CPP.
+<H4>Inheritance and #include</H4>
+
+<P>
+In object-oriented programming, when one class inherits from another,
+it becomes dependent on changes in its parent class. To make sure
+that changes to the parent class's format or interface
+(member function return types and argument lists) update the declaration
+of the child class, add an <TT>#include</TT> directive for the
+header file for the parent class in the child class's header
+file.
+<P>
+Once again, you can see an example of this in the ARRAY.H file
+mentioned previously. Just before the file declares the <TT>Array</TT>
+class, you'll see the following code:<BR>
+
+<PRE>
+#if !defined( __ABSTARRY_H )
+#include &lt;AbstArry.h&gt;
+#endif // __ABSTARRY_H<BR>
+
+</PRE>
+
+<P>
+Between the conditional compile directives, ARRAY.H uses the <TT>#include</TT>
+directive with the ABSTARRY.H header file. If a change occurs
+in ABSTARRY.H, which defines the <TT>AbstractArray</TT> class,
+the compiler will reprocess ARRAY.H.
+<H3>Conclusion</H3>
+
+<P>
+Pre-compiled headers can save a significant amount of time when
+you build projects that use large header files. To use pre-compiled
+headers effectively, you need to apply consistent rules when you
+organize your source and header files. In this article, we've
+shown you how to take advantage of pre-compiled headers when you
+create C or C++ projects.  
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,124 @@
+LEARN TO PROGRAM WITH BORLAND C++BUILDER
+
+BORLAND NO-NONSENSE LICENSE STATEMENT AND LIMITED WARRANTY
+
+Borland grants you the right to use this Borland software product
+("Software"), including any accompanying documentation, in the manner
+provided below.
+
+This Software is owned by Borland or its suppliers and is protected by
+copyright law and international copyright treaty.  Therefore, you must treat
+this Software like any other copyrighted material (e.g., a book), except
+that you may either make one copy of the Software solely for backup or
+archival purposes or transfer the Software to a single hard disk provided
+you keep the original solely for backup or archival purposes.
+
+You may transfer the Software and documentation on a permanent basis
+provided you retain no copies and the recipient agrees to the terms of this
+license statement.  Except as provided in this statement, you may not
+transfer, rent, lease, lend, copy, modify, translate, sublicense, time-share
+or electronically transmit or receive the Software, media or documentation.
+You acknowledge that the Software in source code form remains a confidential
+trade secret of Borland and/or its suppliers and therefore you agree not to
+modify the Software or attempt to decipher, decompile, disassemble or
+reverse engineer the Software, except to the extent applicable laws
+specifically prohibit such restriction.
+
+If you have purchased an upgrade version of the Software, it constitutes a
+single product with the Borland software that you upgraded.  You may use or
+transfer the upgrade version of the Software only in accordance with this
+license statement.
+
+This Software is subject to U.S. Commerce Department export restrictions,
+and is intended for use in the country into which Borland sold it (or in the
+EEC, if sold into the EEC).
+
+ADDITIONAL LICENSE TERMS FOR LEARN TO PROGRAM WITH BORLAND C++BUILDER
+Borland grants to you as an individual, a personal, nonexclusive license to
+install and use the Software to write and compile applications for your own
+personal use, but you do not have a right to distribute or otherwise share
+those applications or any files of the Software which may be required to
+support those applications.  You may install a copy of the Software on a
+computer and freely move the Software from one computer to another, provided
+that you are the only individual using the Software.  If you are an entity,
+Borland grants you the right to designate one individual within your
+organization ("Named User") to have the right to use the Software in the
+manner provided above.
+
+LIMITED WARRANTY
+Borland warrants that the Software, as updated and when properly used, will
+perform substantially in accordance with the accompanying documentation, and
+the Software media will be free from defects in materials and workmanship,
+for a period of ninety (90) days from the date of receipt.  Any implied
+warranties on the Software are limited to ninety (90) days.  Some
+states/jurisdictions do not allow limitations on duration of an implied
+warranty, so the above limitation may not apply to you.
+
+Borland's and its suppliers' entire liability and your exclusive remedy
+shall be, at Borland's option, either (a) return of the price paid, or (b)
+repair or replacement of the Software that does not meet Borland's Limited
+Warranty and which is returned to Borland with a copy of your receipt.  DO
+NOT RETURN ANY PRODUCT UNTIL YOU HAVE CALLED THE BORLAND
+CUSTOMER SERVICE DEPARTMENT AND OBTAINED A RETURN
+AUTHORIZATION NUMBER.  This Limited Warranty is void if failure of the
+Software has resulted from accident, abuse, or misapplication.  Any
+replacement Software will be warranted for the remainder of the original
+warranty period or thirty (30) days, whichever is longer.  Outside the
+United States, neither these remedies nor any product support services
+offered by Borland are available without proof of purchase from an
+authorized non-U.S. source.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, BORLAND
+AND ITS SUPPLIERS DISCLAIM ALL OTHER WARRANTIES, EITHER
+EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,  IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE, WITH REGARD TO THE SOFTWARE AND THE ACCOMPANYING
+DOCUMENTATION.  THIS LIMITED WARRANTY GIVES YOU SPECIFIC
+LEGAL RIGHTS.  YOU MAY HAVE OTHERS, WHICH VARY FROM
+STATE/JURISDICTION TO STATE/JURISDICTION.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO
+EVENT SHALL BORLAND OR ITS SUPPLIERS BE LIABLE FOR ANY
+DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES
+FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF
+BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING
+OUT OF THE USE OF OR INABILITY TO USE THIS BORLAND PRODUCT,
+EVEN IF BORLAND HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGES. BECAUSE SOME STATES/JURISDICTIONS DO NOT ALLOW THE
+EXCLUSION OR LIMITATION OF LIABILITY FOR CONSEQUENTIAL OR
+INCIDENTAL DAMAGES, THE ABOVE LIMITATION MAY NOT APPLY TO
+YOU.
+
+HIGH RISK ACTIVITIES
+The Software is not fault-tolerant and is not designed, manufactured or
+intended for use or resale as on-line control equipment in hazardous
+environments requiring fail-safe performance, such as in the operation of
+nuclear facilities, aircraft navigation or communication systems, air
+traffic control, direct life support machines, or weapons systems, in which
+the failure of the Software could lead directly to death, personal injury,
+or severe physical or environmental damage ("High Risk Activities"). Borland
+and its suppliers specifically disclaim any express or implied warranty of
+fitness for High Risk Activities.
+
+U.S. GOVERNMENT RESTRICTED RIGHTS
+The Software and documentation are provided with RESTRICTED RIGHTS.  Use,
+duplication, or disclosure by the Government is subject to restrictions as
+set forth in subparagraphs (c)(1)(ii) of the Rights in Technical Data and
+Computer Software clause at DFARS 252.227-7013 or subparagraphs (c)(1) and
+(2) of the Commercial Computer Software-Restricted Rights at 48 CFI
+52.227-19, as applicable.  Manufacturer is Borland International, Inc., 100
+Borland Way, Scotts Valley, CA 95066.
+
+GENERAL PROVISIONS
+This statement may only be modified in writing signed by you and an
+authorized officer of Borland.  If any provision of this statement is found
+void or unenforceable, the remainder will remain valid and enforceable
+according to its terms.  If any remedy provided is determined to have failed
+for its essential purpose, all limitations of liability and exclusions of
+damages set forth in the Limited Warranty shall remain in effect.
+
+This statement shall be construed, interpreted and governed by the laws of
+the State of California, U.S.A.  This statement gives you specific legal
+rights; you may have others which vary from state to state and from country
+to country.  Borland reserves all rights not specifically granted in this
+statement.

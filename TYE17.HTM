@@ -1,0 +1,303 @@
+<HTML>
+<HEAD>
+<TITLE>tye17.htm </TITLE>
+<LINK REL="ToC" HREF="httoc.htm">
+<LINK REL="Index" HREF="htindex.htm">
+<LINK REL="Next" HREF="tye18.htm"></HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#800080">
+<A NAME="I0"></A><P ALIGN=CENTER>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blantoc.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="TOC"></A>
+<A HREF="tye18.htm" TARGET="_self"><IMG SRC="blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+
+<HR ALIGN=CENTER>
+<P>
+
+<HR ALIGN=CENTER>
+<A NAME="E66E1"></A>
+<H1 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=6 COLOR="#000080"><B>- 17 -</B>
+<BR><A NAME="I2"></A><B>Building Database Forms</B>
+<BR><B><I>by Ken Henderson</I></B></FONT></CENTER></H1>
+<BR>
+<P>Yesterday you took a brief tour of the C++Builder database architecture. Today I'll reinforce what you learned with a discussion of how C++Builder's database components are used to build database forms. We'll take the knowledge you gained on Day 16 and see how it applies to real applications.
+<BR>
+<P>You'll learn the following today:
+<BR>
+<UL>
+<LI>How to construct a database form using the Database Form Wizard
+<LI>What the essential properties of the TTable, TDataSource, and TDBEdit components are
+<LI>How to construct a database form using conventional form-design techniques
+<LI>Why data-aware controls must reference TDataSet controls indirectly through TDataSource components
+</UL>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I3"></A><B>A Simple Form</B></FONT></CENTER></H3>
+<BR>
+<P>Let's begin today's lesson by building a simple database form. By actually going through the process of building a working database form, you'll begin to see how C++Builder's database architecture manifests itself in real applications.
+<BR>
+<P>There are two basic ways to build a database form in C++Builder. You can build it manually, dropping components on to your new form one at a time and linking them to each other, or you can let C++Builder's Database Form Wizard build the form for you. Let's begin with the Database Form Wizard. If you haven't already done so, start C++Builder and begin a new project.
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I4"></A><B>The Database Form Wizard</B></FONT></CENTER></H4>
+<BR>
+<P>The purpose of the Form Wizard is to construct a form based on your responses to a few simple questions. Choose New from the File menu; then click on the Forms tab in the New Items dialog box. Next, double-click on the Database Form icon on the Forms page. Figure 17.1 shows the New Items dialog box.
+<BR>
+<P><B><A HREF="17tye01.gif">Figure 17.1. You can access the Database Form Wizard via the New Items dialog box.</A></B>
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Tip</B>
+<BR>
+<BR>You can also start the Database Form Wizard from C++Builder's Database menu. To do this, simply choose Form Wizard from C++Builder's Database menu. </NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>The first dialog box of the C++Builder Database Form Wizard asks whether you'd like to build a simple or master/detail form and whether to base the new form on TTable components or TQuery components. For now, just take the defaults and click the Next button. Figure 17.2 illustrates the first step of the Database Form Wizard.
+<BR>
+<P><B><A HREF="17tye02.gif">Figure 17.2. Select the type and basis of the new form you're building.</A></B>
+<BR>
+<P>The wizard then asks what table you'd like to make use of on the form. Begin by selecting the DBDEMOS alias in the Drive or Alias name drop-down list box. This will establish the database server or disk location from which you'll access tables. Once you select DBDEMOS, the list of table names shows those tables located in the directory referenced by the DBDEMOS BDE alias. Double-click the BIOLIFE table near the top of the list. Figure 17.3 shows the Database Form Wizard's second dialog box.
+<BR>
+<P><B><A HREF="17tye03.gif">Figure 17.3. Select the table you want your new form to use.</A></B>
+<BR>
+<P>Next, you're presented with a list of fields from the BIOLIFE table. You can select them one at a time with the &gt; button, or all at once using the &gt;&gt; button. Click the &gt;&gt; button; then click Next to proceed. Figure 17.4 illustrates the field-selection process.
+<BR>
+<P><B><A HREF="17tye04.gif">Figure 17.4. Selecting fields in the Database Form Wizard.</A></B>
+<BR>
+<P>The next form presented by the wizard asks you to select an orientation for the fields on the new form. You have three choices: Horizontal, Vertical, and Grid. Take the default, Horizontal, by clicking the Next button. Figure 17.5 illustrates.
+<BR>
+<P><B><A HREF="17tye05.gif">Figure 17.5. Use this dialog box to select your new form's orientation.</A></B>
+<BR>
+<P>The next&#151;and final&#151;form presented by the Database Form Wizard asks whether you want to generate the form as your application's main form. As you may recall, an application's <I>main form</I> is the form that's first displayed when the application starts. Note the check box at the top of the form that enables you to select whether to generate a main form. We'll accept the default for now and allow this new form to become our application's main form. Obviously, as you add forms to an application you may not want each new one to become the application's main form. To avoid this, simply uncheck the check box at the top of the form.
+<BR>
+<P>This final dialog box also asks whether you'd like to create the new form and a corresponding data module or create the new form alone. Let's accept the default and leave the Form Only option selected. Figure 17.6 shows the Database Form Wizard's final step.
+<BR>
+<P><B><A HREF="17tye06.gif">Figure 17.6. You can select whether to create a main form by itself or to include a data module form.</A></B>
+<BR>
+<P>Now that you've answered all the prompts provided by the Database Form Wizard, click the Finish button. You should see your new form loaded into the C++Builder Form Designer. The form should have its own TTable and TDataSource components, along with a collection of data-aware visual controls. Figure 17.7 shows what the new form should look like.
+<BR>
+<P><B><A HREF="17tye07.gif">Figure 17.7. Your new form as it appears in the Form Designer.</A></B>
+<BR>
+<P>Now that your new form is complete, let's see how it appears at runtime. Press F9 to execute your project now. Because the new form you built was designated as your app's main form, you should see it first when the application runs. Figure 17.8 shows what your new form should look like.
+<BR>
+<P><B><A HREF="17tye08.gif">Figure 17.8. The new form you built appears when you run your application.</A></B>
+<BR>
+<P>Once the app is onscreen, you can navigate the BIOLIFE table using the DBNavigator control at the top of the form. With this tool you can add, change, and delete rows in the table. Click the + button on the DBNavigator to add a record; click the - button to delete one. Type in a field to begin editing it. Click the Post button (the button with a check mark on it) to save any changes you make. With a minimal amount of effort, you've just created a fully functional data entry form for the BIOLIFE table.
+<BR>
+<P>Once you've finished viewing the new form, close it to return to C++Builder.
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Note</B>
+<BR>
+<BR>Note that you can customize forms generated by the Database Form Wizard. They're regular C++Builder forms in every sense of the word. As you work, you may find that creating a form using the Database Form Wizard and then tailoring it to your specific needs makes the most sense.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I5"></A><B>The New Form Analyzed</B></FONT></CENTER></H4>
+<BR>
+<P>Before we move on, let's inspect the form we just generated to learn how it works. Click on the form's TTable component (it should be near the top of the form) to select it. Now press F11 to switch to the C++Builder Object Inspector. There are two key properties to note here. First, notice the DatabaseName property. It's set to the DBDEMOS BDE alias that you selected in the Database Form Wizard. It provides the information the BDE needs to locate the table specified by the second key property, TableName. The TableName property lists the BIOLIFE table you selected in the Database Form Wizard. Figure 17.9 illustrates what you should see in the Object Inspector.
+<BR>
+<P><B><A HREF="17tye09.gif">Figure 17.9. The TTable component on closer inspection.</A></B>
+<BR>
+<P>Now that we've examined the TTable component, let's have a closer look at the TDataSource component as well. It should be adjacent to the TTable component on your form. Click on it now to select it.
+<BR>
+<P>As with the TTable component, there are two key TDataSource properties of which you should take special note. First, note the DataSet property&#151;it references the form's TTable component, Table1. This means that as the TDataSource couriers data to and from data-aware controls, it will send and receive this data from Table1's underlying database table.
+<BR>
+<P>Second, notice the AutoEdit property. It's set to true (true is the property's default setting). As I mentioned yesterday, setting the AutoEdit property to true causes the TDataSource to automatically switch to Edit mode when data is modified in a linked data-aware control. Figure 17.10 shows the two properties in the C++Builder Object Inspector.
+<BR>
+<P><B><A HREF="17tye10.gif">Figure 17.10. Your TDataSource component under the microscope.</A></B>
+<BR>
+<P>The last form elements that beg further examination are the form's data-aware controls. They're the controls responsible for allowing data to be visually entered and modified. Click the topmost TDBEdit control on your form to select it; then select a couple of other TDBEdit components along with it. Once you have a few TDBEdits selected, press F11 to bring up the C++Builder Object Inspector.
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Tip</B>
+<BR>
+<BR>Once you've selected a single component, you can add other components to your selection by holding down the Shift key while you click on them with the left mouse button.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>Similarly to the TTable and TDataSource components, there are two key TDBEdit properties that you should consider. First, note the DataSource property. It's set to the form's TDataSource component. This means that data you enter into the form's visual controls is sent to its underlying table by way of the DataSource1 component. Second, notice the DataField property. It establishes <I>which</I> field in the underlying table a particular data-aware control services.
+<BR>
+<P>Now that we've inspected the TTable, TDataSource, and TDBEdit components a little more closely, the relationship between them becomes more evident. TTables provide the basic link between a form and tables in a database. TDataSource components function as messengers between these TTable components and their linked controls. Data-aware controls, like TDBEdit, send and receive data from TDataSource components. The bottom line is: C++Builder takes a flexible three-tiered approach to providing database access to applications.
+<BR>
+<P>You may be wondering why the TDataSource component is even needed. Consider the following: If data-aware controls such as TDBEdit could refer directly to TDataSet components, what would be involved if you wanted to change all the controls on a form to refer to a different TDataSet? You'd have to select each of them and set its DataSet property accordingly. That said, what's involved with changing the underlying TDataSet when controls are instead linked to a TDataSource? You simply change the TDataSource's DataSet property. You change a single property of a single control. It couldn't be much simpler.
+<BR>
+<P>You might respond, &quot;But I can select all the controls at once and change their DataSource properties just as easily.&quot; To which I might respond, &quot;What about at runtime? How would you change a group of them at runtime?&quot; The answer is: You'd have to change each control individually. You might construct a loop to do the work for you, but you'd be changing each control separately, nonetheless. Perhaps now you can see some of the logic behind C++Builder's database architecture.
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I6"></A><B>A Simple Form the Hard Way</B></FONT></CENTER></H4>
+<BR>
+<P>Now that you've created a basic form the easy way, let's create one manually so that you can see the process in more detail. Click the New form button on C++Builder's toolbar to begin constructing a new form.
+<BR>
+<P>Next, drop two TPanel components onto the new form. Drop one near the top of the form and set its Align property to alTop. This causes the TPanel to occupy the topmost area of the form. No matter how large or small the form becomes, the TPanel will always occupy its top region. Drop the second TPanel near the bottom of the form and set its Align property to alClient. This will cause the TPanel to occupy all the area not taken up by the first TPanel. No matter how the form is sized, the second TPanel will always cover all the area not occupied by the first TPanel.
+<BR>
+<P>Next, let's remove the text that each TPanel displays by default. We don't want either TPanel to display a caption of any type, so we need to reset their Caption properties. Select both TPanel controls; then press F11 to bring up the Object Inspector. Next, delete the contents of the Caption property they share. Figure 17.11 shows the form with its TPanels selected and their Caption property erased.
+<BR>
+<P><B><A HREF="17tye11.gif">Figure 17.11. In the Object Inspector, clear the Caption property of both TPanels.</A></B>
+<BR>
+<P>The next order of business is to drop a TScrollBox control onto the lower TPanel. The reason you need to do this is to allow more controls than will fit on the form to be displayed. If a table has lots of fields, you may need to place more data-aware controls on your form than will physically fit. TScrollBox allows you to do this by providing an area that can be scrolled at runtime to display more controls as needed. Click the lower TPanel to select it; then drop a TScrollBox control on to it. Set the TScrollBox control's Align property to alClient. This will cause the TScrollBox to occupy all space on its host TPanel not taken by other controls. Because it's the only control on the TPanel, this means that it will take all the TPanel's client area. Figure 17.12 shows what your new form might look like with the TScrollBox in place.
+<BR>
+<P><B><A HREF="17tye12.gif">Figure 17.12. Your new form with its TScrollBox in place.</A></B>
+<BR>
+<P>Now that the form's visual foundation has been established, you're ready to begin dropping components on to it. Let's begin with two nonvisual controls: a TTable and a TDataSource. Place one of each anywhere you'd like on the form. Their locations on the form are unimportant because they're both nonvisual controls&#151;they're invisible at runtime. I recommend, though, that you place them near the top of the form so that they can be easily accessed no matter how you size the form.
+<BR>
+<P>Set the TTable component's DatabaseName property to the DBDEMOS BDE alias. Set its TableName property to the BIOLIFE.DB table located in the DBDEMOS alias.
+<BR>
+<P>Next, set the TDataSource component's DataSet property to the name of the TTable component you dropped on the form (it will be named Table1 by default). This creates the link between the TTable and the data-aware controls the TDataSource will service.
+<BR>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<HR ALIGN=CENTER>
+<BR>
+<NOTE><B>Tip</B>
+<BR>
+<BR>You can double-click on the TDataSource component's DataSet property to quickly set it to your form's lone TTable component. Because there's only one TDataSet descendant on the form (your TTable component), C++Builder will automatically supply it to your TDataSource's DataSet property when you double-click on the property.</NOTE>
+<BR>
+<HR ALIGN=CENTER>
+</BLOCKQUOTE></BLOCKQUOTE>
+<P>Figure 17.13 shows your TTable and TDataSource components in place.
+<BR>
+<P><B><A HREF="17tye13.gif">Figure 17.13. Your new form with its nonvisual components.</A></B>
+<BR>
+<P>Now that the form's nonvisual components have been set up, you're ready to set up its data-aware controls. <I>Data-aware controls</I> are user-interface controls that are linked to database tables. They're similar to the controls you normally see in Windows applications, but provide specialized support for sending and receiving data from databases. For example, you often see C++Builder's TEdit control included in Windows applications for editing strings of one type or another. C++Builder includes a data-aware version of TEdit, called TDBEdit, that works just like TEdit except that its whole purpose is to service a given column in a database table. It displays data currently contained in the column and sends any changes a user makes to the data back to the column.
+<BR>
+<P>The first data-aware control you'll drop is the TDBNavigator control. It's located on the Data Controls page in the C++Builder Component Palette. Select your form's top TPanel component; then drop a TDBNavigator onto it. Set the TDBNavigator's DataSource property to your form's TDataSource component. Figure 17.14 illustrates.
+<BR>
+<P><B><A HREF="17tye14.gif">Figure 17.14. Your form with its TDBNavigator in place.</A></B>
+<BR>
+<P>Now that the form's TDBNavigator has been set up, you're ready to move on to dropping the other data controls. There are two basic ways of doing this. The first way is the more tedious of the two. It consists of dropping TDBEdits, TDBMemos, and other data-aware controls on to the form, one at a time, and then setting each of their DataSource and DataField properties individually. Once the data-aware controls are in place, you then drop TLabel components to label each of them. Although this will certainly work, there is a much easier way.
+<BR>
+<P>The second, and much quicker, method involves the use of the C++Builder Fields Editor. Essentially, you can drag field components right from the Fields Editor onto a form. C++Builder will then create a data-aware control and label for each field dropped. To do this, follow these steps:
+<BR>
+<OL>
+<LI>Right-click on your TTable component to bring up its context menu.
+<BR>
+<LI>Select the Fields Editor option from the Context menu.
+<BR>
+<LI>Right-click the Fields Editor and select Add fields.
+<BR>
+<LI>When the list of fields is displayed, click OK to add all of them.
+<BR>
+<LI>With all fields still selected in the Fields Editor, drag them as a group on to your form. You should now see a data-aware control and a TLabel component for each field.
+<BR>
+</OL>
+<P>Figure 17.15 illustrates what your form might look like.
+<BR>
+<P><B><A HREF="17tye15.gif">Figure 17.15. Your new form after its data-aware controls have been placed.</A></B>
+<BR>
+<P>At this point, your form is basically complete. You've just manually built what the Database Form Wizard did for you automatically. Perhaps this can help you appreciate the time saved by using the wizard to create new forms rather than building them all by hand.
+<BR>
+<P>The one thing that remains to be done with your new form is to decide how and when to open your TTable. There are two easy ways of doing this. First, you could simply toggle the TTable's Active property to true at design-time. Setting it to true will open the TTable while you work on it as well as when the application is executed. Second, you could set the form's OnCreate or OnShow event handler to open the TTable at runtime. This, in fact, is how the Database Form Wizard does things&#151;it sets up the form's OnCreate event handler to open the table at runtime.
+<BR>
+<P>Let's mimic the Form Wizard for now and set up your new form's OnCreate handler so that it opens your table when the form is created. Press F11 to bring up the C++Builder Object Inspector; then click the drop-down box and select your form from the list of component classes. Next, click on the Object Inspector's Events page and then double-click on its OnCreate event. Type the following code into the C++Builder Code Editor:
+<BR>
+<BR>
+<PRE>
+<FONT COLOR="#000080">Table1-&gt;Open();</FONT></PRE>
+<P>This will cause the table to open when the form is created. By default, an application's forms are automatically created when it runs, although you can change this behavior.
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I7"></A><B>Running the New Form</B></FONT></CENTER></H4>
+<BR>
+<P>Your form is now complete, and you're ready to run it. In order to ensure that your new form is the first one displayed when the application runs, you need to identify it as the app's main form. To do this, follow these steps:
+<BR>
+<OL>
+<LI>Select the Options item on the C++Builder Project menu
+<BR>
+<LI>On the Forms page of the Options dialog box, click the Main form drop-down list and select your form. This will make it your application's main form.
+<BR>
+<LI>Click OK to save your changes.
+<BR>
+</OL>
+<P>Now that your new form is the app's main form, press F9 to execute the app. You should see your new form displayed when the app loads. Figure 17.16 shows what you might see.
+<BR>
+<P><B><A HREF="17tye16.gif">Figure 17.16. Your new form as it might appear at runtime.</A></B>
+<BR>
+<P>When you've finished viewing your new form, close it to return to C++Builder.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I8"></A><B>Summary</B></FONT></CENTER></H3>
+<BR>
+<P>In this chapter you have learned to build database forms using both the Database Form Wizard and conventional form-construction techniques. You have seen the easy way and the hard way of doing things. More importantly, you have learned <I>why</I> certain elements of the C++Builder database architecture are constructed the way they are. You have also learned to utilize the C++Builder database architecture to construct basic table edit/entry forms.
+<BR>
+<BR>
+<H3 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=5 COLOR="#000080"><A NAME="I9"></A><B>Workshop</B></FONT></CENTER></H3>
+<BR>
+<P>The Workshop contains quiz questions to help you solidify your understanding of the material covered and exercises to provide you with experience in using what you have learned. You can find answers to the quiz in Appendix A, &quot;Answers to Quiz Questions.&quot;
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I10"></A><B>Q&amp;A</B></FONT></CENTER></H4>
+<BR>
+<P><B>Q: What property of the TQuery component determines whether a result set is updatable?</B>
+<BR>
+<P><B>A: </B>The RequestLive property.
+<BR>
+<P><B>Q: What property of the TDatabase component is used to set up an application-based alias?</B>
+<BR>
+<P><B>A: </B>The DatabaseName property.
+<BR>
+<P><B>Q: At a minimum, what components must be in a C++Builder app in which you want to include data-aware user-interface controls?</B>
+<BR>
+<P><B>A: </B>One TTable, Tquery, or TStoredProc component along with a TDatasource component.
+<BR>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I11"></A><B>Quiz</B></FONT></CENTER></H4>
+<BR>
+<OL>
+<LI>What are the two methods of starting the C++Builder Database Form Wizard?
+<BR>
+<LI>What are the key properties of the TTable component?
+<BR>
+<LI>What are the key properties of the TDataSource component?
+<BR>
+<LI>What component do data-aware controls require in order to reference a TDataSet descendant such as TTable?
+<BR>
+</OL>
+<BR>
+<H4 ALIGN=CENTER>
+<CENTER>
+<FONT SIZE=4 COLOR="#000080"><A NAME="I12"></A><B>Exercises</B></FONT></CENTER></H4>
+<BR>
+<OL>
+<LI>Build a database form completely by hand, without using the Fields Editor drag-and-drop technique I showed you today.
+<BR>
+<LI>Construct a database form that involves a master/detail relationship between two tables.
+<BR>
+<LI>Create a new form using the Database Form Wizard and then customize it to your liking.
+<BR>
+<LI>Construct a new form using the Database Form Wizard that is based on a TQuery instead of TTable component.
+<BR>
+</OL><P ALIGN=CENTER>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="#I0" TARGET="_self"><IMG SRC="blantop.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Page Top"></A>
+<A HREF="httoc.htm" TARGET="_self"><IMG SRC="blantoc.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="TOC"></A>
+<A HREF="tye18.htm" TARGET="_self"><IMG SRC="blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+</BODY></HTML>

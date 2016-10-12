@@ -1,0 +1,291 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Borland C++ for DOS or Windows - Compiling with and without debug information</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+January, 1994 - Vol. 1 No. 1 
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Borland C++ for DOS or Windows - Compiling with and without debug information
+</H1>
+
+<P>
+Most of the time, you'll want to ship your finished applications
+in the smallest, most efficient form possible.  The article <A HREF="bcj1_1e.htm">Optimizing your code - Removing debug data from compiled executable</A> describes how to use TDSTRIP to remove symbolic debugging
+information from a compiled application. However, if you always
+let the compiler embed debugging data in your application, the
+compiler may organize your code in a way that helps with debugging
+but increases the size of your finished application.
+<P>
+Instead, you should always build your shipping executable files
+without debugging data. In this article, we'll describe
+the command-line settings that determine whether the compiler
+will add debug information to the executable file. Then, we'll
+work through an example in which we'll demonstrate compiling
+an executable file with and without the debugging options. We'll
+also examine how these debugging options affect the executable
+file's size.
+<H3>Command-line debug options</H3>
+
+<P>
+When you run the Borland C++ Command-line Compiler (BCC.EXE),
+it looks for default compile and link options in the TURBOC.CFG
+configuration file. First, the compiler looks for TURBOC.CFG in
+the current directory. Then, if it doesn't find a configuration
+file, the compiler will use the default TURBOC.CFG file from the
+startup directory (usually \BORLANDC\BIN).
+<P>
+To create an executable file that you can later debug, you have
+to pass the appropriate debug option parameters to the command-line
+compiler. You can either pass these parameters directly from the
+command line, or you can add them to the configuration file. 
+<P>
+The <TT>-v</TT> parameter tells the compiler to add debugging
+information to any object files that appear after the parameter.
+For example, the line<BR>
+
+<PRE>
+bcc -c file1.c -v file2.c<BR>
+
+</PRE>
+
+<P>
+tells the compiler to process FILE1.C without adding debug information
+and then process FILE2.C and add debug information to the file
+FILE2.OBJ. 
+<P>
+The <TT>-c</TT> parameter tells the compiler to stop after it
+creates the object files. If you replace the <TT>-c</TT> parameter
+with <TT>-e</TT> and an executable filename, as in the statement
+<BR>
+
+<PRE>
+bcc -eTEST.EXE file1.c -v file2.c<BR>
+
+</PRE>
+
+<P>
+the compiler will pass the <TT>-v</TT> parameter on to the linker.
+When the linker sees the <TT>-v</TT> parameter as a command-line
+option, it will copy the debug information from the object file
+for FILE2.C into the executable file TEST.EXE.
+<P>
+Since most of the compile sessions for a given project occur during
+the debugging phase, we'll go ahead and add these options
+to the default configuration file. Then, when we compile a program,
+we can simply enter<BR>
+
+<PRE>
+bcc -c file1.c file2.c<BR>
+
+</PRE>
+
+<P>
+and the compiler will automatically add the debug data to all
+the object files. This way, we won't have to explicitly
+add the debug parameters to the command line each time we compile.
+<P>
+Once we finish debugging our application, we'll build it
+without any debugging information. Since we'll only compile
+our final executable file a few times, we'll go ahead and
+enter <TT>-v-</TT> at the command line to compile without the
+debugging information. Now, let's compile an executable
+file with all of the debugging information.
+<H3>Debugging in</H3>
+
+<P>
+To begin, we'll customize the default configuration file.
+You can use any standard text file editor for this. We'll
+use the MS-DOS Editor for this example.
+<P>
+First, make \BORLANDC\BIN the current directory. Then, launch
+the MS-DOS Editor with the default configuration file by entering
+<BR>
+
+<PRE>
+edit turboc.cfg<BR>
+
+</PRE>
+
+<P>
+at the DOS prompt. When the MS-DOS Editor opens the configuration
+file, move the cursor to the end of the file and enter<BR>
+
+<PRE>
+-v<BR>
+
+</PRE>
+
+<P>
+as one of the default command-line parameters. Figure A shows
+a typical configuration file with the debug parameter.
+
+<P>
+<IMG
+        ALIGN= right
+        HSPACE=20 VSPACE=5  WIDTH=488 HEIGHT=276 SRC="bcj1_1f1.gif">
+<BR>
+<STRONG> 
+Figure A - You can add default command-line parameters to TURBOC.CFG. 
+</STRONG>
+<BR CLEAR = ALL>
+<BR>
+<P>
+Choose Save from the File menu to save the new configuration file.
+Then, choose Exit from the File menu to return to the DOS prompt.
+<P>
+Next, make \BORLANDC\EXAMPLES the current directory. Borland C++
+includes VCIRC.PRJ as an example project to compile from the Integrated
+Development Environment. To compile a debuggable version of this
+application from the command line, enter<BR>
+
+<PRE>
+bcc -1 -eVCIRC.EXE vcirc.cpp vpoint.cpp <B><FONT FACE="Zapf Dingbats">&Acirc;</FONT></B><FONT FACE="Zapf Dingbats">    </FONT><FONT FACE="Courier">graphics.lib
+<BR>
+</FONT>
+</PRE>
+
+<P>
+at the DOS prompt. The <TT>-1</TT> parameter tells the compiler
+to use 80186/80286 instructions in the object files. Figure B
+shows the output from the command-line compiler for this executable
+file.
+<P><HR>
+<P>
+<STRONG>
+ FIGURE B
+You can use the command-line compiler to build 
+any of the example projects.
+</STRONG>
+
+<PRE>
+Borland C++  Version 3.1 <a href=/copyright.htm>Copyright</a> (c) 1992 Borland International
+vcirc.cpp:
+vpoint.cpp:
+Turbo Link  Version 5.1 <a href=/copyright.htm>Copyright</a> (c) 1992 Borland International
+
+        Available memory 4046636
+</PRE>
+<HR>
+<P>
+When the compile and link process is complete, enter<BR>
+
+<PRE>
+dir vcirc.exe<BR>
+
+</PRE>
+
+<P>
+at the DOS prompt and note the final executable file's
+size in bytes. Now, let's see what happens to the executable
+file's size when we compile without the debug information.
+<H3>Debugging out</H3>
+
+<P>
+As we mentioned earlier, you can exclude all debug information
+from the executable file by passing the <TT>-v-</TT> parameter
+to the command-line compiler. This works even when the debug parameter
+is part of the configuration file. To build a final (no debug)
+version of VCIRC.EXE, enter<BR>
+
+<PRE>
+bcc -1 -v- -eVCIRC.EXE vcirc.cpp vpoint.cpp <B><FONT FACE="Zapf Dingbats">&Acirc;</FONT></B><FONT FACE="Zapf Dingbats">    </FONT><FONT FACE="Courier">graphics.lib
+<BR>
+</FONT>
+</PRE>
+
+<P>
+at the DOS prompt.
+<P>
+When the compile and link process is complete, again enter<BR>
+
+<PRE>
+dir vcirc.exe<BR>
+
+</PRE>
+
+<P>
+at the DOS prompt. Table A, compares the sizes of
+the VCIRC.EXE executable file with and without debug information.
+
+<P>
+<STRONG>
+ TABLE A: Compiling with debug information can substantially increase an application's size.
+</STRONG>
+<TABLE BORDER=3 >
+<TR>
+ 	<TD COLSPAN=2>  <B> Executable File Size (in bytes) </B>  </TD>
+</TR>
+<TR>
+ 	<TD> Compiled with debug	</TD>
+ 	<TD> Compiled without debug </TD>
+ 	<TD> </TD>
+</TR>
+<TR>
+ 	<TD> 35,230</TD>
+ 	<TD> 26,604 </TD>
+</TR>
+</TABLE><H3>Conclusion</H3>
+
+<P>
+In this article, we showed you how to compile your applications
+with and without embedded debug information. If you always build
+your final executables without including debug data, the compiler
+will arrange the code in the most size- and space-efficient manner
+possible. 
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2><a href=/copyright.htm>Copyright</a> (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,437 @@
+<HTML>
+<HEAD>
+<TITLE> BCJ - Extending TurboVision - Creating a numeric input line </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+<B>Borland Online And The Cobb Group Present:</B><BR> 
+
+<BR>
+<IMG
+        ALIGN=left  WIDTH=400 HEIGHT=81 SRC="BCJhead.gif">
+
+<A HREF="http://www.cobb.com/bcd/freebor2.htm"><IMG 
+	ALIGN=right  WIDTH=90 HEIGHT=44 SRC="getfree.gif" BORDER="0" ALIGN="RIGHT"></A>
+<BR CLEAR=ALL>
+
+<P>
+<A NAME="TOP"></A>
+February, 1994 - Vol. 1 No. 2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<H1>Extending TurboVision - Creating a numeric input line
+</H1>
+
+<P>
+If you use the TurboVision class library to create DOS applications,
+you've probably created dialog boxes for user input. In
+some applications, you may need to prompt the user for a number.
+Unfortunately, none of the native dialog box objects in the library
+are designed to accept numeric input from the user. 
+<P>
+In this article, we'll show you how to create a new class
+that implements a numeric input line for your dialog boxes. We'll
+save time by deriving the new class from an existing class in
+the TurboVision library. First, we'll look at the design
+of our new class and at the resulting code. Then, we'll
+demonstrate how to use this class in an application.
+<H3>Designing The class</H3>
+
+<P>
+One of the biggest selling points of Object Oriented Programming
+(OOP) is that you can reuse and extend an existing library of
+code. However, before you can reuse any part of a library, it's
+important that you know what you want to do and what the library
+offers. Then, you can look for the best match between the desired
+behavior and existing library components.
+<P>
+Our numeric input line needs to do three basic things: It must
+accept numeric input from the keyboard, it must display the numeric
+data in a dialog box, and it must verify that the value is acceptable.
+We may want to add more functionality later, but this is the minimum
+we need.
+<P>
+Within the existing classes of the TurboVision library, <TT>TInputLine</TT>
+comes closest to providing the behavior we want. The <TT>TInputLine</TT>
+class handles text input from the keyboard and allows you to specify
+the size of the input line. In addition, you can limit the number
+of characters a <TT>TInputLine</TT> object displays. 
+<P>
+The <TT>TInputLine</TT> class is derived from <TT>TView</TT>,
+so much of the event-passing code is already written for you.
+Unfortunately, you'll need to define other member functions.
+<P>
+Since the <TT>TDialog</TT> class's <TT>TView</TT>-derived
+items can contain a value, those items should implement the <TT>setData()</TT>
+and <TT>getData()</TT> member functions for setting and retrieving
+their data values. However, because the <TT>TInputLine</TT> class
+treats the data within the input line as an array of characters,
+you'd have to convert integral values to strings to set
+the input line's displayed value. 
+<P>
+In the same way, you'd have to convert the ASCII representation
+of the input value back to an integer to get it when the user
+finished with the dialog box. We'll have to provide new
+versions of <TT>setData()</TT> and <TT>getData()</TT> to implement
+this behavior. 
+<P>
+By default, members of the <TT>TInputLine</TT> class always have
+valid data, so the <TT>valid()</TT> member function always returns
+<TT>True</TT>. If we're going to check the value against
+upper and lower limits, we'll need to override the <TT>valid()</TT>
+member function to prevent the dialog box from accepting invalid
+data.
+<P>
+We would need to change other functions in the <TT>TInputLine</TT>
+class to support streaming, but <TT>setData()</TT>, <TT>getData()</TT>,
+and <TT>valid()</TT> are the most important functions. Now, let's
+examine how to implement a numeric input line class.
+<H3>Looking at the Code </H3>
+
+<P>
+An object of our new class, <TT>TNumericInputLine</TT>, is a <TT>TInputLine</TT>
+object as well. In other words, a numeric input line is a specialized
+form of input line. Therefore, we'll publicly inherit <TT>TNumericInputLine</TT>
+from <TT>TInputLine,</TT> as shown in the declaration in Listing
+A.<BR>
+
+<P><HR>
+<P>
+<STRONG>
+LISTING A: TNUMINLN.H
+</STRONG>
+
+<PRE>
+#define Uses_TInputLine
+#define Uses_MsgBox
+#include &lt;tv.h&gt;
+#include &lt;stdio.h&gt;
+
+class TNumericInputLine : public TInputLine
+{
+  public:
+    TNumericInputLine(const TRect&amp; bounds,
+                      int aMaxLen,
+                      int maxValue,
+                      int minValue);
+
+    virtual void getData( void *rec );
+    virtual void setData( void *rec );
+    virtual Boolean valid(ushort command);<BR>
+
+  protected:
+    int    maximumValue;
+    int    minimumValue;
+};
+</PRE>
+
+<HR>
+
+<P>
+To make sure we can use the correct portions of the TurboVision
+library, we'll add <TT>#define</TT> directives for the
+<TT>TInputLine</TT> class (so we can derive from it) and for the
+<TT>messageBox()</TT> function (which we use in the implementation
+file). We'll need to add <TT>#include</TT> directives for
+the TurboVision header file (TV.H) and for the standard I/O header
+file (STDIO.H). 
+<P>
+We'll declare a constructor that will take four parameters:
+a <TT>TRect</TT> rectangle, the number of displayed digits, the
+maximum integer value, and the minimum integer value. We don't
+need to explicitly define a destructor since we don't dynamically
+allocate memory in the constructor.
+<P>
+We'll declare the <TT>setData()</TT> and <TT>getData()</TT>
+virtual member functions that will preset and retrieve the input
+line's value. A <TT>TDialog </TT>object calls the <TT>setData()</TT>
+and <TT>getData()</TT> functions for each item in its dialog box.
+<P>
+Finally, we'll declare the <TT>valid()</TT> virtual member
+function, which will verify that the value of the input line is
+between the minimum and maximum values. A <TT>TDialog</TT> object
+calls <TT>valid()</TT> for each item in the dialog box before
+closing on an OK command.
+<P>
+The implementation of our custom <TT>TNumericInputLine</TT> class
+appears in Listing B. Now, let's see how you can use the
+numeric input line class in a real application.<BR>
+<P><HR>
+<P>
+<STRONG>
+LISTING B: TNUMINLN.CPP
+</STRONG>
+
+<PRE>
+#include &quot;TNUMINLN.H&quot;
+#include &lt;stdio.h&gt;
+
+TNumericInputLine::TNumericInputLine(const TRect&amp; bounds,
+                                     int aMaxLen,
+                                     int maxValue,
+                                     int minValue) :
+    TInputLine(bounds, aMaxLen)
+{
+    maximumValue = maxValue;
+    minimumValue = minValue;
+}
+
+void TNumericInputLine::getData( void *rec )
+{
+    sscanf(data, &quot;%d&quot;, (int*)rec);
+}
+
+void TNumericInputLine::setData( void *rec )
+{
+    int tempValue = *((int*)rec);
+    sprintf(data, &quot;%d&quot;, tempValue);
+    selectAll(True);
+}
+
+Boolean TNumericInputLine::valid( ushort )
+{
+    int currentValue;
+    getData(&amp;currentValue);
+
+    if(currentValue &gt;= minimumValue)
+    {   if(currentValue &lt;= maximumValue) 
+        { return True; } }
+
+    char temp[80];
+    sprintf(temp,
+        &quot;Value must be between %d and %d&quot;,
+        minimumValue,
+        maximumValue);
+    messageBox(temp, mfOKButton);
+    selectAll(True);
+    return False;
+}
+</PRE>
+<HR>
+
+<H3>Adding a Numeric Input Line to a Project</H3>
+
+<P>
+To demonstrate the <TT>TNumericInputLine</TT> class, we'll
+modify the TurboVision version of Hello World. To start, launch
+the Borland C++ 3.1 DOS Integrated Development Environment (IDE).
+
+<P>
+When the IDE Desktop appears, choose Open Project...
+from the Project menu. In the Open Project File dialog box, enter
+<BR>
+
+<PRE>
+\BORLANDC\TVISION\DEMOS\HELLO.PRJ<BR>
+
+</PRE>
+
+<P>
+at the Open Project File input line. Click on the OK button to
+open the Hello World project file.
+<P>
+Create the declaration file for the <TT>TNumericInputLine</TT>
+class by choosing New from the File menu. When the new file window
+appears, enter the code from Listing A.
+<P>
+When you finish entering the declaration code, choose Save As...
+from the File menu. In the Save File As dialog box, enter<BR>
+
+<PRE>
+\BORLAND\TVISION\DEMOS\TNUMINLN.H<BR>
+
+</PRE>
+
+<P>
+at the Save File As input line. Click the OK button to save the
+file.
+<P>
+Now, you can create the implementation file for the numeric input
+line class by again choosing New from the File menu. When the
+new file window appears, enter the code from Listing B.
+<P>
+Next, choose Save As... from the File menu. In the Save
+File As dialog box, enter<BR>
+
+<PRE>
+\BORLAND\TVISION\DEMOS\TNUMINLN.CPP<BR>
+
+</PRE>
+
+<P>
+at the Save File As input line. As before, click the OK button
+to save the file.
+<P>
+Add TNUMINLN.CPP to the Hello World project by choosing Add Item...
+from the Project menu. When the Add To Project List dialog box
+appears, enter<BR>
+
+<PRE>
+TNUMINLN.CPP<BR>
+
+</PRE>
+
+<P>
+at the Name input line. Click the Add button to add this file
+to the project. When the Add To Project List dialog box reappears,
+click the Done button to dismiss it.
+<P>
+Open the main source file by double-clicking on the filename HELLO.CPP
+in the Project window. When the HELLO.CPP window appears, scroll
+down the file until you locate the member function<BR>
+
+<PRE>
+void THelloApp::greetingBox() <BR>
+
+</PRE>
+
+<P>
+Replace the entire <TT>greetingBox()</TT> function body with the
+code shown in Listing C below. Be sure to add the <TT>#include</TT>
+directive for the TNUMINLN.H declaration file before the function
+body. Now you're ready to run your modified version of
+Hello World.
+<P><HR>
+<P>
+<STRONG>
+LISTING C: greetingBox()
+</STRONG>
+
+<PRE>
+#include &quot;TNUMINLN.H&quot;    // Include the declaration
+
+void THelloApp::greetingBox()
+{   TDialog *d = new TDialog(TRect( 25, 5, 55, 16),
+                 &quot;TNumericInputLine&quot;); // New Title Text
+
+    d-&gt;insert(new TButton(TRect( 16, 4, 28, 6),
+              &quot;Ok&quot;,
+              cmOK,                    // New cmd value
+              bfDefault));             // New button flag
+
+    d-&gt;insert(new TButton(TRect( 16, 8, 28, 10),
+              &quot;Cancel&quot;, cmCancel, bfNormal));
+
+    d-&gt;insert(new TNumericInputLine(TRect(3, 5, 8, 6),
+              2,                       // # of digits
+              10,                      // maximum value
+              5));                     // minimum value
+              
+    int initialValue = 7;              // initial value
+
+    d-&gt;setData((void*)(&amp;initialValue));// set value
+
+    deskTop-&gt;execView( d );
+
+    destroy(d);
+}
+</PRE>
+<HR>
+
+<H3>Using the Numeric Input Line</H3>
+
+<P>
+Choose Run from the Run menu to begin compiling and running the
+new version of Hello World. As Figure A shows, the compile status
+window displays the current condition of the compile process.
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=328 HEIGHT=104 SRC="bcj1_2b1.gif">
+<BR>
+<STRONG> 
+Figure A - When you run Hello World from the IDE, the project automatically compiles. 
+</STRONG>
+<P>
+When the compiler finishes compiling the revised application,
+the Desktop for the Hello World application appears. Choose Greeting...
+from the Hello menu. A dialog box with a numeric input line will
+appear, as shown in Figure B.
+
+
+
+<P>
+<IMG
+	ALIGN= left
+	HSPACE=20 VSPACE=5  WIDTH=241 HEIGHT=88 SRC="bcj1_2b2.gif">
+<BR>
+<STRONG> 
+Figure B - The initial value of &quot;7&quot; is in the numeric input line when the dialog box first appears. 
+</STRONG>
+<P>
+Since the <TT>greetingBox()</TT> function establishes that the
+minimum value should be 5 and the maximum value 10, enter 2 at
+the numeric input line and then click the OK button. A warning
+dialog box appears to tell you the correct range of values, as
+shown in Figure C.
+
+
+
+<P>
+<IMG
+	ALIGN= right
+	HSPACE=20 VSPACE=5  WIDTH=321 HEIGHT=72 SRC="bcj1_2b3.gif">
+<BR>
+<STRONG> 
+Figure C - If you enter an unacceptable value, you'll see a warning dialog box. 
+</STRONG>
+<P>
+Click the OK button in the warning dialog box. When the TNumericInputLine
+dialog box reappears, enter the value <I>8</I> at the numeric
+input line and click the OK button. Since this is an acceptable
+value, the dialog box closes. Choose Exit from the Hello menu
+to quit the Hello World application.
+<H3>Conclusion</H3>
+
+<P>
+OOP languages like Borland C++ allow you to take advantage of
+other programmers' efforts and at the same time customize
+the behavior of other programmers' classes. By carefully
+examining the TurboVision class library, we were able to use less
+than one page of code to create a new class, <TT>TNumericInputLine</TT>,
+from an existing class. 
+
+
+
+
+<BR CLEAR=ALL>
+
+<CENTER>
+<P>
+<A HREF="index.htm"><I>Return to the Borland C++ Developer's Journal index</I></A>
+</P>
+
+<P>
+<A HREF="http://www.cobb.com/bcd"><I>Subscribe to the Borland C++ Developer's Journal</I></A>
+</P>
+</CENTER>
+</P>
+
+<P>
+<HR>
+</P>
+
+<P>
+<FONT SIZE=-2>Copyright (c) 1996 The Cobb Group, a division of
+Ziff-Davis Publishing Company.
+All rights reserved. Reproduction in whole or in part in any form
+or medium without express written permission of Ziff-Davis Publishing
+Company is prohibited. The Cobb Group and The Cobb Group logo
+are trademarks of Ziff-Davis Publishing Company.</FONT>
+</P>
+
+</BODY>
+</HTML>
